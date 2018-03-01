@@ -22,5 +22,18 @@ namespace Microsoft.VisualStudio.ProjectSystem.Build
         ///     Indicates whether Csc/Vbc tasks should call into the in-proc host compiler.
         /// </summary>
         public static string UseHostCompilerIfAvailable = nameof(UseHostCompilerIfAvailable);
+
+        /// <summary>
+        ///     Represents the "Application Designer" property pages to add 
+        /// </summary>
+        public static string PropertyPagesGuidsAdd = nameof(PropertyPagesGuidsAdd);
+
+        public static string PropertyPagesGuidsRemove = nameof(PropertyPagesGuidsRemove);
+
+        public static string CfgPropertyPagesGuidsAdd = nameof(CfgPropertyPagesGuidsAdd);
+
+        public static string CfgPropertyPagesGuidsRemove = nameof(CfgPropertyPagesGuidsRemove);
+
+        public static string LanguageSuffix = nameof(LanguageSuffix);
     }
 }
