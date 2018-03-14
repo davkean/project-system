@@ -6,8 +6,11 @@ using System.ComponentModel.Composition;
 
 using Microsoft.VisualStudio.LanguageServices;
 using Microsoft.VisualStudio.LanguageServices.Implementation.ProjectSystem;
+using Microsoft.VisualStudio.ProjectSystem;
 using Microsoft.VisualStudio.ProjectSystem.LanguageServices;
 using Microsoft.VisualStudio.ProjectSystem.Properties;
+
+[assembly: ProjectSystemContract(ProjectSystemContractScope.ConfiguredProject, ProjectSystemContractProvider.Extension, ContractName = "ProjectFileOrAssemblyInfo", ContractType = typeof(IProjectPropertiesProvider))]
 
 namespace Microsoft.VisualStudio.ProjectSystem.VS.Properties
 {

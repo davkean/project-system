@@ -5,6 +5,7 @@ namespace Microsoft.VisualStudio.ProjectSystem.VS
     /// <summary>
     ///     Provides a method for retrieving options from the host environment.
     /// </summary>
+    [ProjectSystemContract(ProjectSystemContractScope.UnconfiguredProject, ProjectSystemContractProvider.System)]
     internal interface IEnvironmentOptions
     {
         /// <summary>

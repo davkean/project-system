@@ -11,6 +11,7 @@ namespace Microsoft.VisualStudio.ProjectSystem
     /// <summary>
     /// Utility class for allowing for testing of code that needs to access the msbuild lock, and also be testable.
     /// </summary>
+    [ProjectSystemContract(ProjectSystemContractScope.UnconfiguredProject, ProjectSystemContractProvider.System)]
     internal interface IProjectXmlAccessor
     {
         /// <summary>

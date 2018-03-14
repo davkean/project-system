@@ -13,6 +13,7 @@ namespace Microsoft.VisualStudio.ProjectSystem.VS.Debug
     /// of the imports is important in that this determines the order which profiles will be tested
     /// for support 
     /// </summary>
+    [ProjectSystemContract(ProjectSystemContractScope.ConfiguredProject, ProjectSystemContractProvider.Extension)]
     public interface IDebugProfileLaunchTargetsProvider
     {
         /// <summary>

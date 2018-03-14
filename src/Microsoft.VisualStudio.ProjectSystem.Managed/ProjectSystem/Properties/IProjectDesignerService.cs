@@ -7,6 +7,7 @@ namespace Microsoft.VisualStudio.ProjectSystem.Properties
     /// <summary>
     ///     Provides members for for opening the Project Designer and querying whether it is supported.
     /// </summary>
+    [ProjectSystemContract(ProjectSystemContractScope.UnconfiguredProject, ProjectSystemContractProvider.System)]
     internal interface IProjectDesignerService
     {
         /// <summary>

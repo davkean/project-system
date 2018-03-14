@@ -6,6 +6,7 @@ namespace Microsoft.VisualStudio.ProjectSystem.Configuration
     ///     Indicates that a dimension provided by a <see cref="IProjectConfigurationDimensionsProvider"/> instance 
     ///     should participate in calculating the active project configurations for <see cref="IActiveConfiguredProjectsProvider"/>.
     /// </summary>
+    [ProjectSystemContract(ProjectSystemContractScope.UnconfiguredProject, ProjectSystemContractProvider.Extension)]
     internal interface IActiveConfiguredProjectsDimensionProvider
     {
         /// <summary>

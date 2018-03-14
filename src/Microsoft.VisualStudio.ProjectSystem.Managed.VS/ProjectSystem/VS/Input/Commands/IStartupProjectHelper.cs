@@ -7,6 +7,7 @@ namespace Microsoft.VisualStudio.ProjectSystem.VS.Input.Commands
     /// Provides a mechanism to get an export from a DotNet project which is the only startup project. The capabilityMatch is  
     /// used to refine the projects that are considered
     /// </summary>
+    [ProjectSystemContract(ProjectSystemContractScope.ProjectService, ProjectSystemContractProvider.System)]
     internal interface IStartupProjectHelper
     {
         T GetExportFromSingleDotNetStartupProject<T>(string capabilityMatch) where T : class;

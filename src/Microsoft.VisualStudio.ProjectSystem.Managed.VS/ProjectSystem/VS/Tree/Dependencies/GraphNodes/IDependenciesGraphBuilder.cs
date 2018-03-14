@@ -5,6 +5,7 @@ using Microsoft.VisualStudio.ProjectSystem.VS.Tree.Dependencies.Models;
 
 namespace Microsoft.VisualStudio.ProjectSystem.VS.Tree.Dependencies.GraphNodes
 {
+    [ProjectSystemContract(ProjectSystemContractScope.ProjectService, ProjectSystemContractProvider.System)]
     internal interface IDependenciesGraphBuilder
     {
         GraphNode AddGraphNode(

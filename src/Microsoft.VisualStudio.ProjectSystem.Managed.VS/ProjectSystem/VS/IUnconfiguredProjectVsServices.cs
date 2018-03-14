@@ -7,6 +7,7 @@ namespace Microsoft.VisualStudio.ProjectSystem.VS
     /// <summary>
     ///     Provides access to common Visual Studio project services provided by the <see cref="UnconfiguredProject"/>.
     /// </summary>
+    [ProjectSystemContract(ProjectSystemContractScope.UnconfiguredProject, ProjectSystemContractProvider.System)]
     internal interface IUnconfiguredProjectVsServices : IUnconfiguredProjectCommonServices
     {
         /// <summary>

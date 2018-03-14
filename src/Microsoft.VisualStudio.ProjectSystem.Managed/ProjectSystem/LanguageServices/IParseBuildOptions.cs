@@ -4,6 +4,7 @@ using System.Collections.Generic;
 
 namespace Microsoft.VisualStudio.ProjectSystem.LanguageServices
 {
+    [ProjectSystemContract(ProjectSystemContractScope.ProjectService, ProjectSystemContractProvider.System)]
     internal interface IParseBuildOptions
     {
         BuildOptions Parse(IEnumerable<string> args, string projectPath);

@@ -13,6 +13,7 @@ namespace Microsoft.VisualStudio.ProjectSystem.Build
     [ExportBuildGlobalPropertiesProvider(designTimeBuildProperties: false)]
     [Export(typeof(GeneratePackageOnBuildPropertyProvider))]
     [AppliesTo(ProjectCapability.Pack)]
+    [ProjectSystemContract(ProjectSystemContractScope.ProjectService, ProjectSystemContractProvider.System)]
     internal class GeneratePackageOnBuildPropertyProvider : StaticGlobalPropertiesProviderBase
     {
         private bool _overrideGeneratePackageOnBuild;

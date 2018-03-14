@@ -6,9 +6,11 @@ using System.Threading.Tasks;
 
 using Microsoft.VisualStudio.ProjectSystem.LanguageServices;
 using Microsoft.VisualStudio.ProjectSystem.Properties;
+using Microsoft.VisualStudio.ProjectSystem.VS.Tree.Dependencies.Subscriptions;
 
 namespace Microsoft.VisualStudio.ProjectSystem.VS.Tree.Dependencies.CrossTarget
 {
+    [ProjectSystemContract(ProjectSystemContractScope.UnconfiguredProject, ProjectSystemContractProvider.Extension, ContractName = DependencyRulesSubscriber.DependencyRulesSubscriberContract)]
     internal interface ICrossTargetRuleHandler<T> where T : IRuleChangeContext
     {
         /// <summary>

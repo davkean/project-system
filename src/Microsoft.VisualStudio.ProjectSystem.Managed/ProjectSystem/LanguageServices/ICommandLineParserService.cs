@@ -7,6 +7,7 @@ namespace Microsoft.VisualStudio.ProjectSystem.LanguageServices
     /// <summary>
     ///     Parses <see cref="BuildOptions"/> instances from string-based command-line arguments.
     /// </summary>
+    [ProjectSystemContract(ProjectSystemContractScope.UnconfiguredProject, ProjectSystemContractProvider.System)]
     internal interface ICommandLineParserService
     {
         /// <summary>

@@ -5,6 +5,7 @@ namespace Microsoft.VisualStudio.ProjectSystem
     /// <summary>
     ///     Represents the physical project tree in Solution Explorer.
     /// </summary>
+    [ProjectSystemContract(ProjectSystemContractScope.UnconfiguredProject, ProjectSystemContractProvider.System)]
     internal interface IPhysicalProjectTree
     {
         /// <summary>

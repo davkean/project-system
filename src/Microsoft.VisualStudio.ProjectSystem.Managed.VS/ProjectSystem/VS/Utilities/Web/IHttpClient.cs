@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 
 namespace Microsoft.VisualStudio.ProjectSystem.VS.Utilities
 {
+    [ProjectSystemContract(ProjectSystemContractScope.ProjectService, ProjectSystemContractProvider.System)]
     internal interface IHttpClient
     {
         Task<string> GetStringAsync(Uri uri);

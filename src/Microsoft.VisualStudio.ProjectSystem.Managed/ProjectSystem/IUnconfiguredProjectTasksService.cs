@@ -8,7 +8,7 @@ namespace Microsoft.VisualStudio.ProjectSystem
     /// <summary>
     ///     Provides methods for that assist in managing project-related background tasks. 
     /// </summary>
-    [ProjectSystemContract(ProjectSystemContractScope.UnconfiguredProject, ProjectSystemContractProvider.Private)]
+    [ProjectSystemContract(ProjectSystemContractScope.UnconfiguredProject, ProjectSystemContractProvider.System)]
     internal interface IUnconfiguredProjectTasksService
     {   // Provides unit testable versions of CommonProjectSystemTools.LoadedProjectAsync
 

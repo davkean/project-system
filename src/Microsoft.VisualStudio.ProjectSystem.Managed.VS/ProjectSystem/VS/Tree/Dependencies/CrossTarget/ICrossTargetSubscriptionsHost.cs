@@ -2,8 +2,12 @@
 
 using System.Threading.Tasks;
 
+using Microsoft.VisualStudio.ProjectSystem.VS.Tree.Dependencies.Subscriptions;
+
 namespace Microsoft.VisualStudio.ProjectSystem.VS.Tree.Dependencies.CrossTarget
 {
+
+    [ProjectSystemContract(ProjectSystemContractScope.UnconfiguredProject, ProjectSystemContractProvider.System, ContractName = DependencySubscriptionsHost.DependencySubscriptionsHostContract)]
     internal interface ICrossTargetSubscriptionsHost
     {
         Task<AggregateCrossTargetProjectContext> GetCurrentAggregateProjectContext();

@@ -9,6 +9,7 @@ namespace Microsoft.VisualStudio.ProjectSystem.Debug
     ///     additional method <see cref="GetLaunchSettingsFilePathAsync"/> for retrieving
     ///     the launch settings file.
     /// </summary>
+    [ProjectSystemContract(ProjectSystemContractScope.UnconfiguredProject, ProjectSystemContractProvider.System)]
     public interface ILaunchSettingsProvider2 : ILaunchSettingsProvider
     {
         /// <summary>

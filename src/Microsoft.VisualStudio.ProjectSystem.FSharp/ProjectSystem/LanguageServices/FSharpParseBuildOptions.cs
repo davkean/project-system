@@ -85,7 +85,6 @@ namespace Microsoft.VisualStudio.ProjectSystem.LanguageServices
         }
 
         [Export]
-        [AppliesTo(ProjectCapability.FSharp)]
         public void HandleCommandLineNotifications(string binPath, BuildOptions added, BuildOptions removed)
         {
             if (added is FSharpBuildOptions fscAdded)

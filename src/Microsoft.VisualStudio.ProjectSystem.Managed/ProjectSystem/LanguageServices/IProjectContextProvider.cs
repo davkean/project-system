@@ -8,6 +8,7 @@ namespace Microsoft.VisualStudio.ProjectSystem.LanguageServices
     ///     Creates and handles releasing <see cref="AggregateWorkspaceProjectContext"/> instances based on the 
     ///     current <see cref="UnconfiguredProject"/>.
     /// </summary>
+    [ProjectSystemContract(ProjectSystemContractScope.UnconfiguredProject, ProjectSystemContractProvider.System)]
     internal interface IProjectContextProvider
     {
         /// <summary>

@@ -8,6 +8,7 @@ namespace Microsoft.VisualStudio.ProjectSystem.VS.LanguageServices
     /// <summary>
     ///     Exposes a VS specific API related to <see cref="IVsContainedLanguage"/>
     /// </summary>
+    [ProjectSystemContract(ProjectSystemContractScope.UnconfiguredProject, ProjectSystemContractProvider.System)]
     public interface IVsContainedLanguageComponentsFactory
     {
         /// <summary>

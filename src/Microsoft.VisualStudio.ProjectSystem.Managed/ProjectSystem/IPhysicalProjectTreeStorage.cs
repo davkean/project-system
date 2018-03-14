@@ -11,6 +11,7 @@ namespace Microsoft.VisualStudio.ProjectSystem
     ///     This interface provides a simple facade over the <see cref="IFileSystem"/>, <see cref="IFolderManager"/>, 
     ///     <see cref="IProjectTreeService"/> and <see cref="IProjectItemProvider"/> interfaces.
     /// </remarks>
+    [ProjectSystemContract(ProjectSystemContractScope.UnconfiguredProject, ProjectSystemContractProvider.System)]
     internal interface IPhysicalProjectTreeStorage
     {
         /// <summary>

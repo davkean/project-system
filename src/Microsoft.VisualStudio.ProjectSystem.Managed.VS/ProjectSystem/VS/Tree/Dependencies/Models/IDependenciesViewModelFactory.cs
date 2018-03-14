@@ -5,6 +5,7 @@ using Microsoft.VisualStudio.ProjectSystem.VS.Tree.Dependencies.Snapshot;
 
 namespace Microsoft.VisualStudio.ProjectSystem.VS.Tree.Dependencies.Models
 {
+    [ProjectSystemContract(ProjectSystemContractScope.UnconfiguredProject, ProjectSystemContractProvider.System)]
     internal interface IDependenciesViewModelFactory
     {
         IDependencyViewModel CreateTargetViewModel(ITargetedDependenciesSnapshot snapshot);

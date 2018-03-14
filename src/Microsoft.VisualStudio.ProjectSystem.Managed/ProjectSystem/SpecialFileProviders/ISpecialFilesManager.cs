@@ -7,6 +7,7 @@ namespace Microsoft.VisualStudio.ProjectSystem.SpecialFileProviders
     /// <summary>
     ///     Queries the project for special files, such as the application config file or application designer folder, and optionally creates them and checks them out from source control.
     /// </summary>
+    [ProjectSystemContract(ProjectSystemContractScope.UnconfiguredProject, ProjectSystemContractProvider.System)]
     internal interface ISpecialFilesManager
     {
         /// <summary>

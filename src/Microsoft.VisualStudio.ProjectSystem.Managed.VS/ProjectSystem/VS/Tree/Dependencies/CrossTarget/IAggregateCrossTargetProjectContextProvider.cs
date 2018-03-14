@@ -8,6 +8,7 @@ namespace Microsoft.VisualStudio.ProjectSystem.VS.Tree.Dependencies.CrossTarget
     ///     Creates and handles releasing <see cref="AggregateCrossTargetProjectContext"/> instances based on the 
     ///     current <see cref="UnconfiguredProject"/>.
     /// </summary>
+    [ProjectSystemContract(ProjectSystemContractScope.UnconfiguredProject, ProjectSystemContractProvider.System)]
     internal interface IAggregateCrossTargetProjectContextProvider
     {
         /// <summary>

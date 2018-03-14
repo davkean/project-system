@@ -13,6 +13,7 @@ namespace Microsoft.VisualStudio.ProjectSystem.VS.Tree.Dependencies.Snapshot.Fil
     /// filter condition.
     /// Filter can also prevent snapshot from doing update for given dependency when needed.
     /// </summary>
+    [ProjectSystemContract(ProjectSystemContractScope.ProjectService, ProjectSystemContractProvider.Extension)]
     internal interface IDependenciesSnapshotFilter
     {
         /// <summary>

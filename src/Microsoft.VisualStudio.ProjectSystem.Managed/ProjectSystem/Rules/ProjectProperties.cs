@@ -12,6 +12,7 @@ namespace Microsoft.VisualStudio.ProjectSystem
     /// </summary>
     [Export]
     [ExcludeFromCodeCoverage]
+    [ProjectSystemContract(ProjectSystemContractScope.ConfiguredProject, ProjectSystemContractProvider.System)]
     internal partial class ProjectProperties : StronglyTypedPropertyAccess
     {
         /// <summary>

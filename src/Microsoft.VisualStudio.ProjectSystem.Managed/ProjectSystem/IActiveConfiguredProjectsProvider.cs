@@ -15,6 +15,7 @@ namespace Microsoft.VisualStudio.ProjectSystem
     ///     <see cref="ConfiguredProject"/> is considered active at the same time, such as projects that produce
     ///     multiple outputs. See <see cref="ActiveConfiguredProjectsProvider"/> for more information.
     /// </remarks>
+    [ProjectSystemContract(ProjectSystemContractScope.UnconfiguredProject, ProjectSystemContractProvider.System)]
     internal interface IActiveConfiguredProjectsProvider
     {
         /// <summary>

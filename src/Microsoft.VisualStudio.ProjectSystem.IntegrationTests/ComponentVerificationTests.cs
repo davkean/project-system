@@ -4,7 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-
+using System.Runtime.InteropServices;
 using Microsoft.VisualStudio.Composition;
 using Microsoft.VisualStudio.Composition.Reflection;
 using Microsoft.VisualStudio.ProjectSystem.LanguageServices;
@@ -290,7 +290,7 @@ namespace Microsoft.VisualStudio.ProjectSystem.VS
                     {
                         if (contractMetadata.Cardinality == ImportCardinality.ZeroOrMore && importDefinition.Cardinality != ImportCardinality.ZeroOrMore)
                         {
-                            _errors.Add($"Must use ImportMany in {part.Id} to import a contract {importDefinition.ContractName} which can be implemented by an extension.");
+                            _errors.Add($"Must use ImportMany in {part.Type.FullName} to import a contract {importDefinition.ContractName} which can be implemented by an extension.");
                         }
 
                         if (contractMetadata.Scope.HasValue &&
@@ -311,7 +311,7 @@ namespace Microsoft.VisualStudio.ProjectSystem.VS
                         {
                             if (contractMetadata.Scope.Value < importScope.Value)
                             {
-                                _errors.Add($"{part.Id} exports to the {contractMetadata.Scope.Value.ToString()} scope, but it imports {relatedImports.ContractName} from {importScope.Value.ToString()} scope, which is invalid.");
+                                _errors.Add($"{part.Type.FullName} exports to the {contractMetadata.Scope.Value.ToString()} scope, but it imports {relatedImports.ContractName} from {importScope.Value.ToString()} scope, which is invalid.");
                             }
                         }
                     }
@@ -330,10 +330,9 @@ namespace Microsoft.VisualStudio.ProjectSystem.VS
             {
                 foreach (Type type in assembly.GetTypes())
                 {
-                    if (type.IsPublic && type.IsInterface)
-                    {
+                    // Ignore embedded types such as NuGet's IVsFrameworkParser
+                    if (type.GetCustomAttribute<TypeIdentifierAttribute>() == null)
                         interfaceNames.Add(type.FullName);
-                    }
                 }
             }
 
@@ -344,7 +343,8 @@ namespace Microsoft.VisualStudio.ProjectSystem.VS
                     ExportDefinition exportDefinition = exportPair.Value;
                     if (!CheckContractHasMetadata(exportDefinition.ContractName, part, contracts, interfaceNames))
                     {
-                        if (exportDefinition.ContractName.StartsWith("Microsoft.VisualStudio.ProjectSystem.", StringComparison.Ordinal))
+                        string typeIdentity = GetExportTypeIdentity(exportDefinition);
+                        if (typeIdentity != null && !typeIdentity.StartsWith("Microsoft.VisualStudio.Composition", StringComparison.Ordinal) && !typeIdentity.StartsWith("System.ComponentModel.Composition", StringComparison.Ordinal))
                         {
                             _errors.Add($"{part.Type.FullName} exports a contract {exportDefinition.ContractName}, which doesn't have contract metadata.");
                         }
@@ -419,6 +419,17 @@ namespace Microsoft.VisualStudio.ProjectSystem.VS
             }
         }
 
+
+        private string GetExportTypeIdentity(ExportDefinition definition)
+        {
+            if (definition.Metadata.TryGetValue("ExportTypeIdentity", out object identity))
+            {
+                return (string)identity;
+            }
+
+            return null;
+        }
+
         private void AddContractMetadata(Dictionary<string, ContractMetadata> contracts, string name, ProjectSystemContractScope scope, ProjectSystemContractProvider provider, ImportCardinality cardinality)
         {
             Requires.NotNull(contracts, nameof(contracts));
@@ -465,7 +476,7 @@ namespace Microsoft.VisualStudio.ProjectSystem.VS
 
             if (interfaceNames.Contains(contractName))
             {
-                _errors.Add($"{part.Id} exports/imports a contract {contractName}, which doesn't have contract metadata.");
+                _errors.Add($"{part.Type.FullName} exports/imports a contract {contractName}, which doesn't have contract metadata.");
             }
 
             return false;

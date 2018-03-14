@@ -2,6 +2,12 @@
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
 
+using Microsoft.VisualStudio.ProjectSystem;
+using Microsoft.VisualStudio.ProjectSystem.Properties;
+
+[assembly: ProjectSystemContract(ProjectSystemContractScope.ConfiguredProject, ProjectSystemContractProvider.Extension, ContractName = "UserFileWithInterception", ContractType = typeof(IProjectPropertiesProvider))]
+[assembly: ProjectSystemContract(ProjectSystemContractScope.ConfiguredProject, ProjectSystemContractProvider.Extension, ContractName = "UserFileWithInterception", ContractType = typeof(IProjectInstancePropertiesProvider))]
+
 namespace Microsoft.VisualStudio.ProjectSystem.Properties
 {
     [Export("UserFileWithInterception", typeof(IProjectPropertiesProvider))]

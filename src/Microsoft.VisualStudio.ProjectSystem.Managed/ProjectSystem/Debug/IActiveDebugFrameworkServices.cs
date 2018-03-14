@@ -9,6 +9,7 @@ namespace Microsoft.VisualStudio.ProjectSystem.Debug
     /// Wrapper around the active debug framework to provide a single implementation of what is considered the active fraemowrk. If there is
     /// only one framework
     /// </summary>
+    [ProjectSystemContract(ProjectSystemContractScope.UnconfiguredProject, ProjectSystemContractProvider.System)]
     public interface IActiveDebugFrameworkServices
     {
         /// <summary>

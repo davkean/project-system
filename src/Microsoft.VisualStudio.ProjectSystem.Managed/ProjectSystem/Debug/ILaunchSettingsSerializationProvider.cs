@@ -9,6 +9,7 @@ namespace Microsoft.VisualStudio.ProjectSystem.Debug
     /// [ExportMetadata("JsonSection", "nameofjsonsection")]
     /// [ExportMetadata("SerializationProvider", typeof(objectToSerialize))]
     /// </summary>
+    [ProjectSystemContract(ProjectSystemContractScope.UnconfiguredProject, ProjectSystemContractProvider.Extension)]
     public interface ILaunchSettingsSerializationProvider
     {
     }

@@ -5,6 +5,7 @@ namespace Microsoft.VisualStudio.ProjectSystem.Logging
     /// <summary>
     ///     Provides methods for logging project messages.
     /// </summary>
+    [ProjectSystemContract(ProjectSystemContractScope.ProjectService, ProjectSystemContractProvider.System)]
     internal interface IProjectLogger
     {
         /// <summary>

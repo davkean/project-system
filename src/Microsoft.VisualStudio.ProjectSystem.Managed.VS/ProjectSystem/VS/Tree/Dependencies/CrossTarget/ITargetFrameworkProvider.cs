@@ -4,6 +4,7 @@ using System.Collections.Generic;
 
 namespace Microsoft.VisualStudio.ProjectSystem.VS.Tree.Dependencies.CrossTarget
 {
+    [ProjectSystemContract(ProjectSystemContractScope.ProjectService, ProjectSystemContractProvider.System)]
     internal interface ITargetFrameworkProvider
     {
         /// <summary>

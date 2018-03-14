@@ -7,6 +7,7 @@ namespace Microsoft.VisualStudio.ProjectSystem.VS.Tree.Dependencies.Snapshot
     /// <summary>
     /// Provides immutable dependencies snapshot for given project.
     /// </summary>
+    [ProjectSystemContract(ProjectSystemContractScope.UnconfiguredProject, ProjectSystemContractProvider.System)]
     internal interface IDependenciesSnapshotProvider
     {
         /// <summary>

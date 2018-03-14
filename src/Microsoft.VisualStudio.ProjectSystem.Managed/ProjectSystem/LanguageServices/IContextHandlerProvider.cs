@@ -8,6 +8,7 @@ namespace Microsoft.VisualStudio.ProjectSystem.LanguageServices
     ///     Provides <see cref="ICommandLineHandler"/> and <see cref="IEvaluationHandler"/> instances for 
     ///     <see cref="IWorkspaceProjectContext"/> instances.
     /// </summary>
+    [ProjectSystemContract(ProjectSystemContractScope.UnconfiguredProject, ProjectSystemContractProvider.System)]
     internal interface IContextHandlerProvider
     {
         /// <summary>

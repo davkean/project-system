@@ -3,6 +3,11 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
+using Microsoft.VisualStudio.ProjectSystem;
+using Microsoft.VisualStudio.ProjectSystem.Properties;
+
+[assembly: ProjectSystemContract(ProjectSystemContractScope.ConfiguredProject, ProjectSystemContractProvider.Extension, ContractName = "ProjectFileWithInterception", ContractType = typeof(IProjectPropertiesProvider))]
+[assembly: ProjectSystemContract(ProjectSystemContractScope.ConfiguredProject, ProjectSystemContractProvider.Extension, ContractName = "ProjectFileWithInterception", ContractType = typeof(IProjectInstancePropertiesProvider))]
 
 namespace Microsoft.VisualStudio.ProjectSystem.Properties
 {

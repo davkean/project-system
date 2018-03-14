@@ -3,6 +3,7 @@ using System;
 
 namespace Microsoft.VisualStudio.ProjectSystem.VS.PropertyPages
 {
+    [ProjectSystemContract(ProjectSystemContractScope.UnconfiguredProject, ProjectSystemContractProvider.Extension)]
     public interface IPageMetadata
     {
         bool HasConfigurationCondition { get; }

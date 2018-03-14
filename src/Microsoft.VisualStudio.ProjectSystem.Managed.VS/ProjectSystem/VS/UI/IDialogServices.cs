@@ -6,6 +6,7 @@ namespace Microsoft.VisualStudio.ProjectSystem.VS.UI
     /// Provides an abstraction over dialogs to make them unit testable. Each dialog will have its own abstraction which
     /// can be retrieved from this servcie. 
     /// </summary>
+    [ProjectSystemContract(ProjectSystemContractScope.ProjectService, ProjectSystemContractProvider.System)]
     internal interface IDialogServices
     {
         MultiChoiceMsgBoxResult ShowMultiChoiceMsgBox(string dialogTitle, string errorText, string[] buttons);

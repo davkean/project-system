@@ -5,6 +5,7 @@ namespace Microsoft.VisualStudio.ProjectSystem.LanguageServices
     /// <summary>
     /// A Language service for Unconfigured Projects that can answer questions about language syntax
     /// </summary>
+    [ProjectSystemContract(ProjectSystemContractScope.UnconfiguredProject, ProjectSystemContractProvider.Extension)]
     internal interface ISyntaxFactsService
     {
         bool IsValidIdentifier(string identifierName);

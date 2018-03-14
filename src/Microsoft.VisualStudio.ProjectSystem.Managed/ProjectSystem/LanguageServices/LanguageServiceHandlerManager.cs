@@ -11,6 +11,7 @@ using Microsoft.VisualStudio.ProjectSystem.Logging;
 namespace Microsoft.VisualStudio.ProjectSystem.LanguageServices
 {
     [Export]
+    [ProjectSystemContract(ProjectSystemContractScope.UnconfiguredProject, ProjectSystemContractProvider.System)]
     internal class LanguageServiceHandlerManager
     {
         private readonly UnconfiguredProject _project;

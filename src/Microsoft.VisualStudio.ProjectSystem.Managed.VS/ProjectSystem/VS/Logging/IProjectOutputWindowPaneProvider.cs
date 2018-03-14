@@ -9,6 +9,7 @@ namespace Microsoft.VisualStudio.ProjectSystem.VS.Logging
     /// <summary>
     ///     Provides access to the project output window pane.
     /// </summary>
+    [ProjectSystemContract(ProjectSystemContractScope.ProjectService, ProjectSystemContractProvider.System)]
     internal interface IProjectOutputWindowPaneProvider
     {
         /// <summary>

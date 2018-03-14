@@ -7,6 +7,7 @@ namespace Microsoft.VisualStudio.ProjectSystem
     /// <summary>
     /// This service creates a file from a given file template.
     /// </summary>
+    [ProjectSystemContract(ProjectSystemContractScope.UnconfiguredProject, ProjectSystemContractProvider.System)]
     internal interface ICreateFileFromTemplateService
     {
         /// <summary>

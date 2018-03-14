@@ -13,6 +13,7 @@ namespace Microsoft.VisualStudio.ProjectSystem.VS.Tree.Dependencies
     /// between different views. 
     /// View is responsible for buiding nodes hierarchy based on given dependencies snapshot.
     /// </summary>
+    [ProjectSystemContract(ProjectSystemContractScope.UnconfiguredProject, ProjectSystemContractProvider.Extension)]
     internal interface IDependenciesTreeViewProvider
     {
         /// <summary>

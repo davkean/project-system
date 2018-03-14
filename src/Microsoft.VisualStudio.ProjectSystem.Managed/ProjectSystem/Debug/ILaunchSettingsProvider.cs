@@ -6,10 +6,10 @@ using System.Threading.Tasks.Dataflow;
 
 namespace Microsoft.VisualStudio.ProjectSystem.Debug
 {
-
     /// <summary>
     /// Interface definition for the LaunchSettingsProvider.
     /// </summary>
+    [ProjectSystemContract(ProjectSystemContractScope.UnconfiguredProject, ProjectSystemContractProvider.System)]
     public interface ILaunchSettingsProvider
     {
         IReceivableSourceBlock<ILaunchSettings> SourceBlock { get; }

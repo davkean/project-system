@@ -5,6 +5,7 @@ namespace Microsoft.VisualStudio.ProjectSystem.Utilities
     /// <summary>
     /// Abstraction for System.Environment for unit testing
     /// </summary>
+    [ProjectSystemContract(ProjectSystemContractScope.ProjectService, ProjectSystemContractProvider.System)]
     internal interface IEnvironmentHelper
     {
         string GetEnvironmentVariable(string name);

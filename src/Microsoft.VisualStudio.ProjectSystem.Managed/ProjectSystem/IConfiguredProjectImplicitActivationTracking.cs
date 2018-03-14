@@ -10,7 +10,7 @@ namespace Microsoft.VisualStudio.ProjectSystem
     /// <summary>
     ///     Provides properties and events to track the implicit activation of a <see cref="ConfiguredProject"/>.
     /// </summary>
-    [ProjectSystemContract(ProjectSystemContractScope.ConfiguredProject, ProjectSystemContractProvider.Private, Cardinality = ImportCardinality.ExactlyOne)]
+    [ProjectSystemContract(ProjectSystemContractScope.ConfiguredProject, ProjectSystemContractProvider.System, Cardinality = ImportCardinality.ExactlyOne)]
     internal interface IConfiguredProjectImplicitActivationTracking
     {
         /// <summary>

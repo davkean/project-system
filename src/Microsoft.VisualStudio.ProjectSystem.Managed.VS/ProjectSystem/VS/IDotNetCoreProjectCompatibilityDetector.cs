@@ -8,6 +8,7 @@ namespace Microsoft.VisualStudio.ProjectSystem.VS
     /// Singleton loaded by the managed package which tracks projects in the solution to detect if any of them are not supported
     /// with this version of Visual Studio and puts up a dialog warning the user.
     /// </summary>
+    [ProjectSystemContract(ProjectSystemContractScope.ProjectService, ProjectSystemContractProvider.System)]
     internal interface IDotNetCoreProjectCompatibilityDetector
     {
         Task InitializeAsync();

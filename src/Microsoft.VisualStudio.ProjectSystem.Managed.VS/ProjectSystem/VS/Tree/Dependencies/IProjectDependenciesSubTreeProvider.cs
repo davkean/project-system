@@ -11,6 +11,7 @@ namespace Microsoft.VisualStudio.ProjectSystem.VS.Tree.Dependencies
     /// Contract responsible for providing data about project dependencies of a specific type,
     /// for example assemblies, projects, packages etc.
     /// </summary>
+    [ProjectSystemContract(ProjectSystemContractScope.UnconfiguredProject, ProjectSystemContractProvider.Extension)]
     public interface IProjectDependenciesSubTreeProvider
     {
         /// <summary>

@@ -7,6 +7,7 @@ namespace Microsoft.VisualStudio.ProjectSystem
     /// <summary>
     ///     Provides properties for retrieving options for the project system.
     /// </summary>
+    [ProjectSystemContract(ProjectSystemContractScope.ProjectService, ProjectSystemContractProvider.System)]
     internal interface IProjectSystemOptions
     {
         /// <summary>

@@ -11,6 +11,7 @@ namespace Microsoft.VisualStudio.ProjectSystem.Imaging
     /// </summary>
     [Export]
     [AppliesTo(ProjectCapability.CSharpOrVisualBasicOrFSharp)]
+    [ProjectSystemContract(ProjectSystemContractScope.UnconfiguredProject, ProjectSystemContractProvider.System)]
     internal class ProjectImageProviderAggregator : IProjectImageProvider
     {
         [ImportingConstructor]

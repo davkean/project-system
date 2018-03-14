@@ -5,6 +5,7 @@ namespace Microsoft.VisualStudio.ProjectSystem.LanguageServices
     /// <summary>
     ///     Creates the VS specific project host (IVSHierarchy) for projects.
     /// </summary>
+    [ProjectSystemContract(ProjectSystemContractScope.UnconfiguredProject, ProjectSystemContractProvider.System)]
     internal interface IProjectHostProvider
     {
         /// <summary>

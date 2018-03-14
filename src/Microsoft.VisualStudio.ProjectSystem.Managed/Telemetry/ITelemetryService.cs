@@ -2,8 +2,11 @@
 
 using System.Collections.Generic;
 
+using Microsoft.VisualStudio.ProjectSystem;
+
 namespace Microsoft.VisualStudio.Telemetry
 {
+    [ProjectSystemContract(ProjectSystemContractScope.ProjectService, ProjectSystemContractProvider.System)]
     internal interface ITelemetryService
     {
         void PostEvent(string eventName);

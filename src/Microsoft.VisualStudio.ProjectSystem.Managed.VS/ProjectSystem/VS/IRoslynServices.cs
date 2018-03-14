@@ -6,6 +6,7 @@ using Microsoft.CodeAnalysis;
 
 namespace Microsoft.VisualStudio.ProjectSystem.VS
 {
+    [ProjectSystemContract(ProjectSystemContractScope.UnconfiguredProject, ProjectSystemContractProvider.System)]
     internal interface IRoslynServices
     {
         Task<Solution> RenameSymbolAsync(Solution solution, ISymbol symbol, string newName);

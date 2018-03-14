@@ -14,7 +14,7 @@ namespace Microsoft.VisualStudio.ProjectSystem
     ///     A project-service level component that provides methods for accessing the MSBuild evaluation and 
     ///     construction models for a <see cref="UnconfiguredProject"/> or <see cref="ConfiguredProject"/>.
     /// </summary>
-    [ProjectSystemContract(ProjectSystemContractScope.ProjectService, ProjectSystemContractProvider.Private, Cardinality = ImportCardinality.ExactlyOne)]
+    [ProjectSystemContract(ProjectSystemContractScope.ProjectService, ProjectSystemContractProvider.System, Cardinality = ImportCardinality.ExactlyOne)]
     internal interface IProjectAccessor
     {
         /// <summary>

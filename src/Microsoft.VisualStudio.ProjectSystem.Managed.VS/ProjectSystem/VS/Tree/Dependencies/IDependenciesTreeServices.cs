@@ -10,6 +10,7 @@ namespace Microsoft.VisualStudio.ProjectSystem.VS.Tree.Dependencies
     /// <summary>
     /// Abstracts tree nodes API and allows to use them outside of ProjectTreeProviderBase.
     /// </summary>
+    [ProjectSystemContract(ProjectSystemContractScope.UnconfiguredProject, ProjectSystemContractProvider.System)]
     internal interface IDependenciesTreeServices
     {
         /// <summary>

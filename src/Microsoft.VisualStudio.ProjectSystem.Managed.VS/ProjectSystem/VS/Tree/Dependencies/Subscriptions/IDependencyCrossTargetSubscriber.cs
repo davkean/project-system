@@ -6,6 +6,7 @@ using Microsoft.VisualStudio.ProjectSystem.VS.Tree.Dependencies.CrossTarget;
 
 namespace Microsoft.VisualStudio.ProjectSystem.VS.Tree.Dependencies.Subscriptions
 {
+    [ProjectSystemContract(ProjectSystemContractScope.UnconfiguredProject, ProjectSystemContractProvider.Extension)]
     internal interface IDependencyCrossTargetSubscriber : ICrossTargetSubscriber
     {
         event EventHandler<DependencySubscriptionChangedEventArgs> DependenciesChanged;

@@ -5,6 +5,7 @@ namespace Microsoft.VisualStudio.ProjectSystem.Imaging
     /// <summary>
     ///     Provides project images given a specific key.
     /// </summary>
+    [ProjectSystemContract(ProjectSystemContractScope.ProjectService, ProjectSystemContractProvider.Extension)]
     internal interface IProjectImageProvider
     {
         /// <summary>
