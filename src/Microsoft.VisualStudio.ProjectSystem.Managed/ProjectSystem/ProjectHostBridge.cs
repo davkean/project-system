@@ -1,17 +1,19 @@
 ﻿// Copyright (c) Microsoft.  All Rights Reserved.  Licensed under the Apache License, Version 2.0.  See License.txt in the project root for license information.
 
+using System;
+using System.Collections.Generic;
+using System.ComponentModel.Composition;
+using System.Diagnostics.CodeAnalysis;
+using System.Threading;
+using System.Threading.Tasks;
+using System.Threading.Tasks.Dataflow;
+
+using Microsoft.VisualStudio.Threading;
+
+using Task = System.Threading.Tasks.Task;
+
 namespace Microsoft.VisualStudio.ProjectSystem.VS.Implementation.Package
 {
-    using System;
-    using System.Collections.Generic;
-    using System.ComponentModel.Composition;
-    using System.Diagnostics.CodeAnalysis;
-    using System.Threading;
-    using System.Threading.Tasks;
-    using System.Threading.Tasks.Dataflow;
-    using Microsoft.VisualStudio.Shell;
-    using Microsoft.VisualStudio.Threading;
-    using Task = System.Threading.Tasks.Task;
 
     /// <summary>
     /// A service that bridges CPS Core snapshots to the VS UI thread.
