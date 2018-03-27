@@ -14,7 +14,6 @@ using Task = System.Threading.Tasks.Task;
 
 namespace Microsoft.VisualStudio.ProjectSystem
 {
-
     /// <summary>
     /// A service that bridges CPS Core snapshots to the VS UI thread.
     /// </summary>
@@ -52,8 +51,6 @@ namespace Microsoft.VisualStudio.ProjectSystem
             : base(joinableTaskContextNode)
         {
         }
-
-        #region MEF imports
 
         /// <summary>
         /// Gets the Visual Studio service provider.
@@ -94,8 +91,6 @@ namespace Microsoft.VisualStudio.ProjectSystem
         /// Gets the CPS async task services.
         /// </summary>
         protected abstract IProjectAsynchronousTasksService ProjectAsynchronousTasksService { get; }
-
-        #endregion
 
         /// <summary>
         /// Gets the value that was most recently applied to the UI thread.

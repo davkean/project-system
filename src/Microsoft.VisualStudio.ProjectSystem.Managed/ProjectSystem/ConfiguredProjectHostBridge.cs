@@ -29,8 +29,6 @@ namespace Microsoft.VisualStudio.ProjectSystem
         {
         }
 
-        #region MEF imports
-
         /// <summary>
         /// Gets exports from the active project configuration.
         /// </summary>
@@ -59,8 +57,6 @@ namespace Microsoft.VisualStudio.ProjectSystem
         {
             get { return this.ConfiguredProjectAsynchronousTasksService; }
         }
-
-        #endregion
 
         /// <summary>
         /// Gets a value indicating whether new values are only forthcoming when this instance
