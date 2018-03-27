@@ -230,8 +230,7 @@ namespace Microsoft.VisualStudio.ProjectSystem
         /// <returns><c>true</c> to publish the value; <c>false</c> otherwise.</returns>
         protected virtual bool ShouldValueBeApplied(TOutput previouslyAppliedOutput, TOutput newOutput)
         {
-            var equatable = previouslyAppliedOutput as IEquatable<TOutput>;
-            if (equatable != null)
+            if (previouslyAppliedOutput is IEquatable<TOutput> equatable)
             {
                 // By default, we only apply an update if it's not equivalent to the previous one.
                 return !equatable.Equals(newOutput);
