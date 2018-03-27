@@ -82,7 +82,7 @@ namespace Microsoft.VisualStudio.ProjectSystem
                 cancellationToken = ProjectAsynchronousTasksService.UnloadCancellationToken;
             }
 
-            await InitializeAsync(cancellationToken);
+            await InitializeAsync(cancellationToken).ConfigureAwait(false);
 
             // We may need to assist in getting the value published to the UI thread (if our caller is
             // on the UI thread and will ultimately synchronously block on this).
@@ -126,7 +126,7 @@ namespace Microsoft.VisualStudio.ProjectSystem
                             return false;
                         },
                         ConfiguredProject.Services,
-                        cancellationToken);
+                        cancellationToken).ConfigureAwait(false);
 
                     return matchingValue;
                 }

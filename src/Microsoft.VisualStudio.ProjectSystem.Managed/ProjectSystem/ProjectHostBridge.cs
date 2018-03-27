@@ -118,7 +118,7 @@ namespace Microsoft.VisualStudio.ProjectSystem
             await ProjectAsynchronousTasksService.LoadedProjectAsync(
                 async delegate
                 {
-                    await InitializeInnerCoreAsync(cancellationToken);
+                    await InitializeInnerCoreAsync(cancellationToken).ConfigureAwait(false);
                 });
 
             TOutput lastOutputToBeApplied = default(TOutput);
@@ -127,7 +127,7 @@ namespace Microsoft.VisualStudio.ProjectSystem
                 {
                     Report.If(ProjectLockService.IsAnyPassiveLockHeld, "We should not be in a lock");
 
-                    var newOutput = await this.PreprocessAsync(input, lastOutputToBeApplied);
+                    var newOutput = await this.PreprocessAsync(input, lastOutputToBeApplied).ConfigureAwait(false);
                     bool apply = this.ShouldValueBeApplied(lastOutputToBeApplied, newOutput);
                     if (apply)
                     {
@@ -147,7 +147,7 @@ namespace Microsoft.VisualStudio.ProjectSystem
                     return await JoinableFactory.RunAsync(async delegate
                     {
                         await JoinableFactory.SwitchToMainThreadAsync(ProjectAsynchronousTasksService.UnloadCancellationToken);
-                        await ApplyAsync(output);
+                        await ApplyAsync(output).ConfigureAwait(false);
                         firstValuePublishedSource.TrySetResult(null);
                         return AppliedValue;
                     });
