@@ -55,7 +55,7 @@ namespace Microsoft.VisualStudio.ProjectSystem
         /// </summary>
         protected override IProjectAsynchronousTasksService ProjectAsynchronousTasksService
         {
-            get { return this.ConfiguredProjectAsynchronousTasksService; }
+            get { return ConfiguredProjectAsynchronousTasksService; }
         }
 
         /// <summary>
@@ -79,33 +79,33 @@ namespace Microsoft.VisualStudio.ProjectSystem
             Requires.NotNull(minimumRequiredDataSourceVersions, nameof(minimumRequiredDataSourceVersions));
             if (!cancellationToken.CanBeCanceled)
             {
-                cancellationToken = this.ProjectAsynchronousTasksService.UnloadCancellationToken;
+                cancellationToken = ProjectAsynchronousTasksService.UnloadCancellationToken;
             }
 
-            await this.InitializeAsync(cancellationToken);
+            await InitializeAsync(cancellationToken);
 
             // We may need to assist in getting the value published to the UI thread (if our caller is
             // on the UI thread and will ultimately synchronously block on this).
-            using (this.JoinableCollection.Join())
+            using (JoinableCollection.Join())
             {
                 CancellationTokenSource cts = null;
-                if (this.IsActiveConfigurationRequired)
+                if (IsActiveConfigurationRequired)
                 {
                     // What we're doing is sensitive to project config changes that occur on the UI thread,
                     // so mitigate race conditions by switch to the UI thread now.
-                    await this.ThreadingService.SwitchToUIThread();
-                    if (this.ActiveConfiguredProjectProvider.ActiveConfiguredProject != this.ConfiguredProject)
+                    await ThreadingService.SwitchToUIThread();
+                    if (ActiveConfiguredProjectProvider.ActiveConfiguredProject != ConfiguredProject)
                     {
                         throw new OperationCanceledException();
                     }
 
-                    cts = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken, this.ActiveConfiguredProjectProvider.ConfigurationActiveCancellationToken);
+                    cts = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken, ActiveConfiguredProjectProvider.ConfigurationActiveCancellationToken);
                     cancellationToken = cts.Token;
                 }
 
                 using (cts)
                 {
-                    var matchingValue = await this.AppliedValueBlock.GetSpecificVersionAsync(
+                    var matchingValue = await AppliedValueBlock.GetSpecificVersionAsync(
                         value =>
                         {
                             if (minimumRequiredDataSourceVersions.IsSatisfiedBy(value))
@@ -121,11 +121,11 @@ namespace Microsoft.VisualStudio.ProjectSystem
     {1}",
                                 minimumRequiredDataSourceVersions,
                                 value.DataSourceVersions,
-                                this.GetType().Name);
+                                GetType().Name);
 
                             return false;
                         },
-                        this.ConfiguredProject.Services,
+                        ConfiguredProject.Services,
                         cancellationToken);
 
                     return matchingValue;

@@ -95,7 +95,7 @@ namespace Microsoft.VisualStudio.ProjectSystem
         /// </summary>
         protected internal IReceivableSourceBlock<TApplied> AppliedValueBlock
         {
-            get { return this.appliedValueBlock; }
+            get { return appliedValueBlock; }
         }
 
         /// <summary>
@@ -112,7 +112,7 @@ namespace Microsoft.VisualStudio.ProjectSystem
         /// </summary>
         protected void Initialize()
         {
-            this.JoinableFactory.Run(() => this.InitializeAsync());
+            JoinableFactory.Run(() => InitializeAsync());
         }
 
         /// <summary>
@@ -121,19 +121,19 @@ namespace Microsoft.VisualStudio.ProjectSystem
         protected override sealed async Task InitializeCoreAsync(CancellationToken cancellationToken)
         {
             var firstValuePublishedSource = new TaskCompletionSource<object>();
-            var debugTypeName = this.GetType().Name;
+            var debugTypeName = GetType().Name;
 
-            await this.ProjectAsynchronousTasksService.LoadedProjectAsync(
+            await ProjectAsynchronousTasksService.LoadedProjectAsync(
                 async delegate
                 {
-                    await this.InitializeInnerCoreAsync(cancellationToken);
+                    await InitializeInnerCoreAsync(cancellationToken);
                 });
 
             TOutput lastOutputToBeApplied = default(TOutput);
             var preprocessingBlock = DataflowExtensions.CreateSelfFilteringTransformBlock<TInput, TOutput>(
                 async input =>
                 {
-                    Report.If(this.ProjectLockService.IsAnyPassiveLockHeld, "We should not be in a lock");
+                    Report.If(ProjectLockService.IsAnyPassiveLockHeld, "We should not be in a lock");
 
                     var newOutput = await this.PreprocessAsync(input, lastOutputToBeApplied);
                     bool apply = this.ShouldValueBeApplied(lastOutputToBeApplied, newOutput);
@@ -146,18 +146,18 @@ namespace Microsoft.VisualStudio.ProjectSystem
                 },
                 new ExecutionDataflowBlockOptions
                 {
-                    CancellationToken = this.ProjectAsynchronousTasksService.UnloadCancellationToken,
+                    CancellationToken = ProjectAsynchronousTasksService.UnloadCancellationToken,
                     NameFormat = string.Concat(debugTypeName, " Input: {1}")
                 });
             var applicationBlock = new TransformBlock<TOutput, TApplied>(
                 async output =>
                 {
-                    return await this.JoinableFactory.RunAsync(async delegate
+                    return await JoinableFactory.RunAsync(async delegate
                     {
-                        await this.JoinableFactory.SwitchToMainThreadAsync(this.ProjectAsynchronousTasksService.UnloadCancellationToken);
-                        await this.ApplyAsync(output);
+                        await JoinableFactory.SwitchToMainThreadAsync(ProjectAsynchronousTasksService.UnloadCancellationToken);
+                        await ApplyAsync(output);
                         firstValuePublishedSource.TrySetResult(null);
-                        return this.AppliedValue;
+                        return AppliedValue;
                     });
                 },
                 new ExecutionDataflowBlockOptions
@@ -166,21 +166,21 @@ namespace Microsoft.VisualStudio.ProjectSystem
                     // doesn't have insight into asynchronous work (only one synchronous piece of it)
                     // which can cause deadlocks for async work since there is no joinable task
                     // that spans the entire async delegate that is passed to the dataflow block.
-                    CancellationToken = this.ProjectAsynchronousTasksService.UnloadCancellationToken,
+                    CancellationToken = ProjectAsynchronousTasksService.UnloadCancellationToken,
                 });
             var appliedBlock = new BroadcastBlock<TApplied>(null, new DataflowBlockOptions() { NameFormat = string.Concat(debugTypeName, ": {1}") });
 
             preprocessingBlock.LinkTo(applicationBlock, new DataflowLinkOptions { PropagateCompletion = true });
             applicationBlock.LinkTo(appliedBlock, new DataflowLinkOptions { PropagateCompletion = true });
 
-            this.firstBlock = preprocessingBlock;
-            this.appliedValueBlock = appliedBlock.SafePublicize();
-            this.firstLink = this.LinkExternalInput(preprocessingBlock);
-            this.ProjectFaultHandlerService.RegisterFaultHandler(this.appliedValueBlock.Completion, severity: ProjectFaultSeverity.LimitedFunctionality, project: this.UnconfiguredProject);
+            firstBlock = preprocessingBlock;
+            appliedValueBlock = appliedBlock.SafePublicize();
+            firstLink = this.LinkExternalInput(preprocessingBlock);
+            ProjectFaultHandlerService.RegisterFaultHandler(appliedValueBlock.Completion, severity: ProjectFaultSeverity.LimitedFunctionality, project: UnconfiguredProject);
 
             // If the derived type's InitializeCoreAsync method sets the initial value,
             // that is our indication that we don't need to block here.
-            if (this.BlockInitializeOnFirstAppliedValue && this.AppliedValue == null)
+            if (BlockInitializeOnFirstAppliedValue && AppliedValue == null)
             {
                 // Await in such a way that if the Dataflow blocks have faulted, we throw instead of hanging indefinitely.
                 var completingTask = await Task.WhenAny(firstValuePublishedSource.Task, preprocessingBlock.Completion, applicationBlock.Completion);
@@ -210,11 +210,11 @@ namespace Microsoft.VisualStudio.ProjectSystem
         /// </summary>
         protected override Task DisposeCoreAsync(bool initialized)
         {
-            this.disposableBag.Dispose();
-            this.firstLink?.Dispose();
-            if (this.firstBlock != null)
+            disposableBag.Dispose();
+            firstLink?.Dispose();
+            if (firstBlock != null)
             {
-                this.firstBlock.Complete();
+                firstBlock.Complete();
             }
 
             return TplExtensions.CompletedTask;
@@ -263,7 +263,7 @@ namespace Microsoft.VisualStudio.ProjectSystem
         protected void JoinUpstreamDataSources(params IJoinableProjectValueDataSource[] dataSources)
         {
             Requires.NotNull(dataSources, nameof(dataSources));
-            this.disposableBag.AddDisposable(ProjectDataSources.JoinUpstreamDataSources(this.JoinableFactory, this.ProjectFaultHandlerService, dataSources));
+            disposableBag.AddDisposable(ProjectDataSources.JoinUpstreamDataSources(JoinableFactory, ProjectFaultHandlerService, dataSources));
         }
     }
 }
