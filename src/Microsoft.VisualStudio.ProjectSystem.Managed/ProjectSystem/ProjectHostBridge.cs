@@ -12,7 +12,7 @@ using Microsoft.VisualStudio.Threading;
 
 using Task = System.Threading.Tasks.Task;
 
-namespace Microsoft.VisualStudio.ProjectSystem.VS.Implementation.Package
+namespace Microsoft.VisualStudio.ProjectSystem
 {
 
     /// <summary>

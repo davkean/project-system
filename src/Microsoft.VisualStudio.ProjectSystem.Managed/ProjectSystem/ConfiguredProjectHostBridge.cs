@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 using Microsoft.VisualStudio.Threading;
 
-namespace Microsoft.VisualStudio.ProjectSystem.VS.Implementation.Package
+namespace Microsoft.VisualStudio.ProjectSystem
 {
     /// <summary>
     /// A configured project level service that bridges CPS Core snapshots to the VS UI thread.
