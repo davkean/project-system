@@ -27,22 +27,17 @@ namespace Microsoft.VisualStudio.ProjectSystem
         /// <summary>
         /// A bag of values to dispose when this instance is disposed of.
         /// </summary>
-        private readonly DisposableBag disposableBag = new DisposableBag(CancellationToken.None);
+        private readonly DisposableBag _disposableBag = new DisposableBag(CancellationToken.None);
 
         /// <summary>
         /// The link that brings data from external sources into this service.
         /// </summary>
-        private IDisposable firstLink;
+        private IDisposable _firstLink;
 
         /// <summary>
         /// The first block within this service, that should be Completed when this instance is disposed.
         /// </summary>
-        private IDataflowBlock firstBlock;
-
-        /// <summary>
-        /// The block which broadcasts the applied value.
-        /// </summary>
-        private IReceivableSourceBlock<TApplied> appliedValueBlock;
+        private IDataflowBlock _firstBlock;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ProjectHostBridge{TInput, TOutput, TApplied}"/> class.
@@ -93,10 +88,7 @@ namespace Microsoft.VisualStudio.ProjectSystem
         /// <summary>
         /// Gets a block that broadcasts the applied value.
         /// </summary>
-        protected internal IReceivableSourceBlock<TApplied> AppliedValueBlock
-        {
-            get { return appliedValueBlock; }
-        }
+        protected internal IReceivableSourceBlock<TApplied> AppliedValueBlock { get; private set; }
 
         /// <summary>
         /// Gets a value indicating whether the <see cref="Initialize()"/> method should block
@@ -173,10 +165,10 @@ namespace Microsoft.VisualStudio.ProjectSystem
             preprocessingBlock.LinkTo(applicationBlock, new DataflowLinkOptions { PropagateCompletion = true });
             applicationBlock.LinkTo(appliedBlock, new DataflowLinkOptions { PropagateCompletion = true });
 
-            firstBlock = preprocessingBlock;
-            appliedValueBlock = appliedBlock.SafePublicize();
-            firstLink = this.LinkExternalInput(preprocessingBlock);
-            ProjectFaultHandlerService.RegisterFaultHandler(appliedValueBlock.Completion, severity: ProjectFaultSeverity.LimitedFunctionality, project: UnconfiguredProject);
+            _firstBlock = preprocessingBlock;
+            AppliedValueBlock = appliedBlock.SafePublicize();
+            _firstLink = this.LinkExternalInput(preprocessingBlock);
+            ProjectFaultHandlerService.RegisterFaultHandler(AppliedValueBlock.Completion, severity: ProjectFaultSeverity.LimitedFunctionality, project: UnconfiguredProject);
 
             // If the derived type's InitializeCoreAsync method sets the initial value,
             // that is our indication that we don't need to block here.
@@ -210,11 +202,11 @@ namespace Microsoft.VisualStudio.ProjectSystem
         /// </summary>
         protected override Task DisposeCoreAsync(bool initialized)
         {
-            disposableBag.Dispose();
-            firstLink?.Dispose();
-            if (firstBlock != null)
+            _disposableBag.Dispose();
+            _firstLink?.Dispose();
+            if (_firstBlock != null)
             {
-                firstBlock.Complete();
+                _firstBlock.Complete();
             }
 
             return TplExtensions.CompletedTask;
@@ -263,7 +255,7 @@ namespace Microsoft.VisualStudio.ProjectSystem
         protected void JoinUpstreamDataSources(params IJoinableProjectValueDataSource[] dataSources)
         {
             Requires.NotNull(dataSources, nameof(dataSources));
-            disposableBag.AddDisposable(ProjectDataSources.JoinUpstreamDataSources(JoinableFactory, ProjectFaultHandlerService, dataSources));
+            _disposableBag.AddDisposable(ProjectDataSources.JoinUpstreamDataSources(JoinableFactory, ProjectFaultHandlerService, dataSources));
         }
     }
 }
