@@ -7,7 +7,7 @@ using System.Diagnostics.CodeAnalysis;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Threading.Tasks.Dataflow;
-
+using Microsoft.VisualStudio.ProjectSystem.Utilities;
 using Microsoft.VisualStudio.Threading;
 
 using Task = System.Threading.Tasks.Task;
@@ -51,13 +51,6 @@ namespace Microsoft.VisualStudio.ProjectSystem
             : base(joinableTaskContextNode)
         {
         }
-
-        /// <summary>
-        /// Gets the Visual Studio service provider.
-        /// </summary>
-        [Import]
-        [SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode", Justification = "Called by MEF")]
-        protected SVsServiceProvider ServiceProvider { get; private set; }
 
         /// <summary>
         /// Gets the direct access service.
@@ -218,7 +211,7 @@ namespace Microsoft.VisualStudio.ProjectSystem
         protected override Task DisposeCoreAsync(bool initialized)
         {
             this.disposableBag.Dispose();
-            this.firstLink.DisposeIfNotNull();
+            this.firstLink?.Dispose();
             if (this.firstBlock != null)
             {
                 this.firstBlock.Complete();
