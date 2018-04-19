@@ -32,8 +32,8 @@ Namespace Microsoft.VisualStudio.Editors.XmlIntellisense
     Friend NotInheritable Class XmlIntellisenseService
         Implements IXmlIntellisenseService
 
-        Private _container As IServiceContainer
-        Private _schemaService As XmlSchemaService
+        Private ReadOnly _container As IServiceContainer
+        Private ReadOnly _schemaService As XmlSchemaService
 
         '--------------------------------------------------------------------------
         ' New:
@@ -501,7 +501,7 @@ Namespace Microsoft.VisualStudio.Editors.XmlIntellisense
         Private _children As XmlIntellisenseMember
         Private _nextMember As XmlIntellisenseMember
         Private _flags As Flags
-        Private _element As XmlSchemaElement
+        Private ReadOnly _element As XmlSchemaElement
 
         Private Shared s_any As XmlIntellisenseMember
 
@@ -623,10 +623,10 @@ Namespace Microsoft.VisualStudio.Editors.XmlIntellisense
         Private _targetNamespaces As Dictionary(Of String, String)
         Private _indexedByNamespace As Dictionary(Of String, List(Of XmlIntellisenseMember))
         Private _indexedByName As Dictionary(Of XmlQualifiedName, Object)
-        Private _all As XmlIntellisenseMemberList
-        Private _document As XmlIntellisenseMemberList
-        Private _roots As XmlIntellisenseMemberList
-        Private _elements As XmlIntellisenseMemberList
+        Private ReadOnly _all As XmlIntellisenseMemberList
+        Private ReadOnly _document As XmlIntellisenseMemberList
+        Private ReadOnly _roots As XmlIntellisenseMemberList
+        Private ReadOnly _elements As XmlIntellisenseMemberList
 
         Private Shared ReadOnly s_anyElement As XmlIntellisenseMember = XmlIntellisenseMember.AnyElement()
         Private Shared ReadOnly s_anyAttribute As XmlIntellisenseMember = XmlIntellisenseMember.AnyAttribute()
@@ -901,7 +901,7 @@ Namespace Microsoft.VisualStudio.Editors.XmlIntellisense
 
         Private _allMembers As IndexedMembers
         Private _previousStep As XmlIntellisenseMemberList
-        Private _axis As Axis
+        Private ReadOnly _axis As Axis
         Private _name As XmlQualifiedName
         Private _members As IEnumerable(Of XmlIntellisenseMember)
 

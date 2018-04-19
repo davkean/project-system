@@ -1,4 +1,4 @@
-' Copyright (c) Microsoft.  All Rights Reserved.  Licensed under the Apache License, Version 2.0.  See License.txt in the project root for license information.
+﻿' Copyright (c) Microsoft.  All Rights Reserved.  Licensed under the Apache License, Version 2.0.  See License.txt in the project root for license information.
 
 Imports System.ComponentModel
 Imports Microsoft.VisualStudio.Editors.PropertyPages
@@ -81,14 +81,14 @@ Namespace Microsoft.VisualStudio.Editors.SettingsDesigner
         Private _generateDefaultValueInCode As Boolean = True
 
 #Region "Cached property descriptors with this instance as the owner"
-        Private _generateDefaultValueInCodePropertyDescriptor As New GenerateDefaultValueInCodePropertyDescriptor(Me)
-        Private _namePropertyDescriptor As New NamePropertyDescriptor(Me)
-        Private _descriptionPropertyDescriptor As New DescriptionPropertyDescriptor(Me)
-        Private _providerPropertyDescriptor As New ProviderPropertyDescriptor(Me)
-        Private _roamingPropertyDescriptor As New RoamingPropertyDescriptor(Me)
-        Private _scopePropertyDescriptor As New ScopePropertyDescriptor(Me)
-        Private _serializedValuePropertyDescriptor As New SerializedValuePropertyDescriptor(Me)
-        Private _settingTypeNamePropertyDescriptor As New SettingTypeNamePropertyDescriptor(Me)
+        Private ReadOnly _generateDefaultValueInCodePropertyDescriptor As New GenerateDefaultValueInCodePropertyDescriptor(Me)
+        Private ReadOnly _namePropertyDescriptor As New NamePropertyDescriptor(Me)
+        Private ReadOnly _descriptionPropertyDescriptor As New DescriptionPropertyDescriptor(Me)
+        Private ReadOnly _providerPropertyDescriptor As New ProviderPropertyDescriptor(Me)
+        Private ReadOnly _roamingPropertyDescriptor As New RoamingPropertyDescriptor(Me)
+        Private ReadOnly _scopePropertyDescriptor As New ScopePropertyDescriptor(Me)
+        Private ReadOnly _serializedValuePropertyDescriptor As New SerializedValuePropertyDescriptor(Me)
+        Private ReadOnly _settingTypeNamePropertyDescriptor As New SettingTypeNamePropertyDescriptor(Me)
 #End Region
 
         Public Sub New()
@@ -175,7 +175,7 @@ Namespace Microsoft.VisualStudio.Editors.SettingsDesigner
         Private MustInherit Class DesignTimeSettingInstanceCustomPropertyDescriptorBase
             Inherits PropertyDescriptor
 
-            Private _owner As DesignTimeSettingInstance
+            Private ReadOnly _owner As DesignTimeSettingInstance
 
             Public Sub New(owner As DesignTimeSettingInstance, name As String)
                 MyBase.New(name, Array.Empty(Of Attribute))
@@ -600,7 +600,7 @@ Namespace Microsoft.VisualStudio.Editors.SettingsDesigner
 
             Public Overrides ReadOnly Property PropertyType() As Type
                 Get
-                    Return GetType(System.String)
+                    Return GetType(String)
                 End Get
             End Property
 
