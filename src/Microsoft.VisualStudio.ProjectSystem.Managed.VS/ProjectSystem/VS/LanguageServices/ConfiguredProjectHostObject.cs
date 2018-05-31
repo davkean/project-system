@@ -27,7 +27,7 @@ namespace Microsoft.VisualStudio.ProjectSystem.VS.LanguageServices
         }
 
         public string ProjectDisplayName => _projectDisplayName;
-        public override string ActiveIntellisenseProjectDisplayName => _unconfiguredProjectHostObject.ActiveIntellisenseProjectDisplayName;
+        public override string ActiveIntellisenseProjectContext => _unconfiguredProjectHostObject.ActiveIntellisenseProjectContext;
 
         #region IVsHierarchy overrides
 
