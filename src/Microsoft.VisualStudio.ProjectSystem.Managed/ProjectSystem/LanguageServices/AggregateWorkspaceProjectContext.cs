@@ -63,7 +63,7 @@ namespace Microsoft.VisualStudio.ProjectSystem.LanguageServices
                 IWorkspaceProjectContext innerProjectContext = innerProjectContextKvp.Value;
 
                 // For cross targeting projects, we ensure that the display name is unique per every target framework.
-                innerProjectContext.DisplayName = IsCrossTargeting ? $"{displayName}({targetFramework})" : displayName;
+                innerProjectContext.DisplayName = IsCrossTargeting ? $"{displayName} ({targetFramework})" : displayName;
                 innerProjectContext.ProjectFilePath = projectFilePath;
             }
         }
