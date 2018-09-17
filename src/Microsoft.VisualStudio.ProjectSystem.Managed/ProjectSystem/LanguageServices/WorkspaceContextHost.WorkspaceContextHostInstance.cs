@@ -1,5 +1,6 @@
 ﻿// Copyright (c) Microsoft.  All Rights Reserved.  Licensed under the Apache License, Version 2.0.  See License.txt in the project root for license information.
 
+using System;
 using System.ComponentModel.Composition;
 using System.Threading;
 using System.Threading.Tasks;
@@ -45,6 +46,18 @@ namespace Microsoft.VisualStudio.ProjectSystem.LanguageServices
                 _workspaceProjectContextProvider = workspaceProjectContextProvider;
                 _applyChangesToWorkspaceContextFactory = applyChangesToWorkspaceContextFactory;
                 _activeWorkspaceProjectContextTracker = activeWorkspaceProjectContextTracker;
+            }
+
+            public async Task OpenContextForRead(Func<IWorkspaceProjectContext, Task> action)
+            {
+                Requires.NotNull(action, nameof(action));
+
+                Assumes.True(IsInitialized);
+
+                if (_context == null)
+                    throw new OperationCanceledException();
+
+                await ExecuteUnderLockAsync(cancellationToken => action(_context));
             }
 
             public Task InitializeAsync()

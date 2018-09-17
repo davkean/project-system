@@ -22,19 +22,19 @@ namespace Microsoft.VisualStudio.ProjectSystem.VS.LanguageServices
         private readonly IVsService<SAsyncServiceProvider, IOleAsyncServiceProvider> _serviceProvider;
         private readonly IUnconfiguredProjectVsServices _projectVsServices;
         private readonly IProjectHostProvider _projectHostProvider;
-        private readonly ILanguageServiceHost _languageServiceHost;
+        private readonly IActiveWorkspaceProjectContextHost _workspaceProjectContextHost;
         private readonly AsyncLazy<IVsContainedLanguageFactory> _containedLanguageFactory;
 
         [ImportingConstructor]
         public VsContainedLanguageComponentsFactory(IVsService<SAsyncServiceProvider, IOleAsyncServiceProvider> serviceProvider,
                                                     IUnconfiguredProjectVsServices projectVsServices,
                                                     IProjectHostProvider projectHostProvider,
-                                                    ILanguageServiceHost languageServiceHost)
+                                                    IActiveWorkspaceProjectContextHost workspaceProjectContextHost)
         {
             _serviceProvider = serviceProvider;
             _projectVsServices = projectVsServices;
             _projectHostProvider = projectHostProvider;
-            _languageServiceHost = languageServiceHost;
+            _workspaceProjectContextHost = workspaceProjectContextHost;
 
             _containedLanguageFactory = new AsyncLazy<IVsContainedLanguageFactory>(GetContainedLanguageFactoryAsync, projectVsServices.ThreadingService.JoinableTaskFactory);
         }
@@ -54,8 +54,7 @@ namespace Microsoft.VisualStudio.ProjectSystem.VS.LanguageServices
 
         private async Task<(HierarchyId itemid, IVsHierarchy hierarchy, IVsContainedLanguageFactory containedLanguageFactory)> GetContainedLanguageFactoryForFileAsync(string filePath)
         {
-            await _languageServiceHost.InitializeAsync()
-                                      .ConfigureAwait(true);
+            await _workspaceProjectContextHost.Initialized;
 
             await _projectVsServices.ThreadingService.SwitchToUIThread();
 

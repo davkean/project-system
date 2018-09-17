@@ -16,9 +16,9 @@ namespace Microsoft.VisualStudio.ProjectSystem.LanguageServices
     /// <summary>
     ///     Hosts a <see cref="IWorkspaceProjectContext"/> and handles the interaction between the project system and the language service.
     /// </summary>
-    [Export(typeof(ILanguageServiceHost))]
+    [Export(typeof(LanguageServiceHost))]
     [AppliesTo(ProjectCapability.DotNetLanguageService)]
-    internal partial class LanguageServiceHost : OnceInitializedOnceDisposedAsync, ILanguageServiceHost
+    internal partial class LanguageServiceHost : OnceInitializedOnceDisposedAsync
     {
 #pragma warning disable CA2213 // OnceInitializedOnceDisposedAsync are not tracked correctly by the IDisposeable analyzer
         private readonly SemaphoreSlim _gate = new SemaphoreSlim(initialCount: 1);
@@ -73,11 +73,14 @@ namespace Microsoft.VisualStudio.ProjectSystem.LanguageServices
             _projectConfigurationsWithSubscriptions = new HashSet<ProjectConfiguration>();
         }
 
-        public object HostSpecificErrorReporter => _currentAggregateProjectContext?.HostSpecificErrorReporter;
+        public async Task OpenContextForRead(Func<IWorkspaceProjectContext, Task> action)
+        {
+            await InitializeAsync();
+
+            await action(ActiveProjectContext);
+        }
 
         public IWorkspaceProjectContext ActiveProjectContext => _currentAggregateProjectContext?.ActiveProjectContext;
-
-        public object HostSpecificEditAndContinueService => _currentAggregateProjectContext?.ENCProjectConfig;
 
         [ProjectAutoLoad(completeBy: ProjectLoadCheckpoint.ProjectFactoryCompleted)]
         [AppliesTo(ProjectCapability.DotNetLanguageService)]

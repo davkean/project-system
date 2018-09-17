@@ -3,7 +3,7 @@
 using System;
 using System.ComponentModel.Composition;
 using System.Runtime.InteropServices;
-
+using System.Threading.Tasks;
 using Microsoft.VisualStudio.ProjectSystem.LanguageServices;
 using Microsoft.VisualStudio.Shell.Interop;
 using Microsoft.VisualStudio.TextManager.Interop;
@@ -19,17 +19,19 @@ namespace Microsoft.VisualStudio.ProjectSystem.VS.EditAndContinue
     [AppliesTo(ProjectCapability.EditAndContinue)]
     internal class EditAndContinueProvider : IVsENCRebuildableProjectCfg, IVsENCRebuildableProjectCfg2, IVsENCRebuildableProjectCfg4, IDisposable
     {
-        private ILanguageServiceHost _host;
+        private IActiveWorkspaceProjectContextHost _workspaceProjectContextHost;
+        private IProjectThreadingService _threadingService;
 
         [ImportingConstructor]
-        public EditAndContinueProvider(ILanguageServiceHost host)
+        public EditAndContinueProvider(IActiveWorkspaceProjectContextHost workspaceProjectContextHost, IProjectThreadingService threadingService)
         {
-            _host = host;
+            _workspaceProjectContextHost = workspaceProjectContextHost;
+            _threadingService = threadingService;
         }
 
         public int StartDebuggingPE()
         {
-            if (_host?.HostSpecificEditAndContinueService is IVsENCRebuildableProjectCfg2 encProvider)
+            if (_workspaceProjectContextHost?.HostSpecificEditAndContinueService is IVsENCRebuildableProjectCfg2 encProvider)
             {
                 return encProvider.StartDebuggingPE();
             }
@@ -39,7 +41,7 @@ namespace Microsoft.VisualStudio.ProjectSystem.VS.EditAndContinue
 
         public int EnterBreakStateOnPE(ENC_BREAKSTATE_REASON encBreakReason, ENC_ACTIVE_STATEMENT[] pActiveStatements, uint cActiveStatements)
         {
-            if (_host?.HostSpecificEditAndContinueService is IVsENCRebuildableProjectCfg2 encProvider)
+            if (_workspaceProjectContextHost?.HostSpecificEditAndContinueService is IVsENCRebuildableProjectCfg2 encProvider)
             {
                 return encProvider.EnterBreakStateOnPE(encBreakReason, pActiveStatements, cActiveStatements);
             }
@@ -49,7 +51,7 @@ namespace Microsoft.VisualStudio.ProjectSystem.VS.EditAndContinue
 
         public int BuildForEnc(object pUpdatePE)
         {
-            if (_host?.HostSpecificEditAndContinueService is IVsENCRebuildableProjectCfg2 encProvider)
+            if (_workspaceProjectContextHost?.HostSpecificEditAndContinueService is IVsENCRebuildableProjectCfg2 encProvider)
             {
                 return encProvider.BuildForEnc(pUpdatePE);
             }
@@ -59,7 +61,7 @@ namespace Microsoft.VisualStudio.ProjectSystem.VS.EditAndContinue
 
         public int ExitBreakStateOnPE()
         {
-            if (_host?.HostSpecificEditAndContinueService is IVsENCRebuildableProjectCfg2 encProvider)
+            if (_workspaceProjectContextHost?.HostSpecificEditAndContinueService is IVsENCRebuildableProjectCfg2 encProvider)
             {
                 return encProvider.ExitBreakStateOnPE();
             }
@@ -69,7 +71,7 @@ namespace Microsoft.VisualStudio.ProjectSystem.VS.EditAndContinue
 
         public int StopDebuggingPE()
         {
-            if (_host?.HostSpecificEditAndContinueService is IVsENCRebuildableProjectCfg2 encProvider)
+            if (_workspaceProjectContextHost?.HostSpecificEditAndContinueService is IVsENCRebuildableProjectCfg2 encProvider)
             {
                 return encProvider.StopDebuggingPE();
             }
@@ -79,7 +81,7 @@ namespace Microsoft.VisualStudio.ProjectSystem.VS.EditAndContinue
 
         public int GetENCBuildState(ENC_BUILD_STATE[] pENCBuildState)
         {
-            if (_host?.HostSpecificEditAndContinueService is IVsENCRebuildableProjectCfg2 encProvider)
+            if (_workspaceProjectContextHost?.HostSpecificEditAndContinueService is IVsENCRebuildableProjectCfg2 encProvider)
             {
                 return encProvider.GetENCBuildState(pENCBuildState);
             }
@@ -89,7 +91,7 @@ namespace Microsoft.VisualStudio.ProjectSystem.VS.EditAndContinue
 
         public int GetCurrentActiveStatementPosition(uint id, TextSpan[] ptsNewPosition)
         {
-            if (_host?.HostSpecificEditAndContinueService is IVsENCRebuildableProjectCfg2 encProvider)
+            if (_workspaceProjectContextHost?.HostSpecificEditAndContinueService is IVsENCRebuildableProjectCfg2 encProvider)
             {
                 return encProvider.GetCurrentActiveStatementPosition(id, ptsNewPosition);
             }
@@ -99,7 +101,7 @@ namespace Microsoft.VisualStudio.ProjectSystem.VS.EditAndContinue
 
         public int GetPEidentity(Guid[] pMVID, string[] pbstrPEName)
         {
-            if (_host?.HostSpecificEditAndContinueService is IVsENCRebuildableProjectCfg2 encProvider)
+            if (_workspaceProjectContextHost?.HostSpecificEditAndContinueService is IVsENCRebuildableProjectCfg2 encProvider)
             {
                 return encProvider.GetPEidentity(pMVID, pbstrPEName);
             }
@@ -109,7 +111,7 @@ namespace Microsoft.VisualStudio.ProjectSystem.VS.EditAndContinue
 
         public int GetExceptionSpanCount(out uint pcExceptionSpan)
         {
-            if (_host?.HostSpecificEditAndContinueService is IVsENCRebuildableProjectCfg2 encProvider)
+            if (_workspaceProjectContextHost?.HostSpecificEditAndContinueService is IVsENCRebuildableProjectCfg2 encProvider)
             {
                 return encProvider.GetExceptionSpanCount(out pcExceptionSpan);
             }
@@ -120,7 +122,7 @@ namespace Microsoft.VisualStudio.ProjectSystem.VS.EditAndContinue
 
         public int GetExceptionSpans(uint celt, ENC_EXCEPTION_SPAN[] rgelt, ref uint pceltFetched)
         {
-            if (_host?.HostSpecificEditAndContinueService is IVsENCRebuildableProjectCfg2 encProvider)
+            if (_workspaceProjectContextHost?.HostSpecificEditAndContinueService is IVsENCRebuildableProjectCfg2 encProvider)
             {
                 return encProvider.GetExceptionSpans(celt, rgelt, pceltFetched);
             }
@@ -130,7 +132,7 @@ namespace Microsoft.VisualStudio.ProjectSystem.VS.EditAndContinue
 
         public int GetCurrentExceptionSpanPosition(uint id, TextSpan[] ptsNewPosition)
         {
-            if (_host?.HostSpecificEditAndContinueService is IVsENCRebuildableProjectCfg2 encProvider)
+            if (_workspaceProjectContextHost?.HostSpecificEditAndContinueService is IVsENCRebuildableProjectCfg2 encProvider)
             {
                 return encProvider.GetCurrentExceptionSpanPosition(id, ptsNewPosition);
             }
@@ -140,7 +142,7 @@ namespace Microsoft.VisualStudio.ProjectSystem.VS.EditAndContinue
 
         public int EncApplySucceeded(int hrApplyResult)
         {
-            if (_host?.HostSpecificEditAndContinueService is IVsENCRebuildableProjectCfg2 encProvider)
+            if (_workspaceProjectContextHost?.HostSpecificEditAndContinueService is IVsENCRebuildableProjectCfg2 encProvider)
             {
                 return encProvider.EncApplySucceeded(hrApplyResult);
             }
@@ -150,7 +152,7 @@ namespace Microsoft.VisualStudio.ProjectSystem.VS.EditAndContinue
 
         public int GetPEBuildTimeStamp(OLE.Interop.FILETIME[] pTimeStamp)
         {
-            if (_host?.HostSpecificEditAndContinueService is IVsENCRebuildableProjectCfg2 encProvider)
+            if (_workspaceProjectContextHost?.HostSpecificEditAndContinueService is IVsENCRebuildableProjectCfg2 encProvider)
             {
                 return encProvider.GetPEBuildTimeStamp(pTimeStamp);
             }
@@ -160,7 +162,7 @@ namespace Microsoft.VisualStudio.ProjectSystem.VS.EditAndContinue
 
         public int HasCustomMetadataEmitter(out bool value)
         {
-            if (_host?.HostSpecificEditAndContinueService is IVsENCRebuildableProjectCfg4 encProvider)
+            if (_workspaceProjectContextHost?.HostSpecificEditAndContinueService is IVsENCRebuildableProjectCfg4 encProvider)
             {
                 return encProvider.HasCustomMetadataEmitter(out value);
             }
@@ -173,7 +175,32 @@ namespace Microsoft.VisualStudio.ProjectSystem.VS.EditAndContinue
         {
             // Important for ProjectNodeComServices to null out fields to reduce the amount 
             // of data we leak when extensions incorrectly holds onto the IVsHierarchy.
-            _host = null;
+            _threadingService = null;
+            _workspaceProjectContextHost = null;
+        }
+
+        private int Execute(Func<IVsENCRebuildableProjectCfg2, int> action)
+        {
+            IActiveWorkspaceProjectContextHost workspaceProjectContextHost = _workspaceProjectContextHost;
+            if (workspaceProjectContextHost == null)
+                return HResult.Unexpected;
+
+            return _threadingService.ExecuteSynchronously(async () =>
+            {
+                await _threa.
+
+                int result = HResult.OK;
+                await workspaceProjectContextHost.OpenContextForRead(context =>
+                {
+                    var encProvider = (IVsENCRebuildableProjectCfg2)context;
+
+                    result = action(encProvider);
+
+                    return Task.CompletedTask;
+                });
+
+                return result;
+            });
         }
 
         // NOTE: Managed ENC always calls through IVsENCRebuildableProjectCfg2/IVsENCRebuildableProjectCfg4.

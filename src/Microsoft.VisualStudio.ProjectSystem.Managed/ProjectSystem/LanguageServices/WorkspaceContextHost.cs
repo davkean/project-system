@@ -1,5 +1,6 @@
 ﻿// Copyright (c) Microsoft.  All Rights Reserved.  Licensed under the Apache License, Version 2.0.  See License.txt in the project root for license information.
 
+using System;
 using System.ComponentModel.Composition;
 using System.Threading.Tasks;
 
@@ -12,8 +13,9 @@ namespace Microsoft.VisualStudio.ProjectSystem.LanguageServices
     ///     on changes to the project to the <see cref="IApplyChangesToWorkspaceContext"/> service.
     /// </summary>
     [Export(typeof(IImplicitlyActiveService))]
+    [Export(typeof(IWorkspaceProjectContextHost))]
     [AppliesTo(ProjectCapability.DotNetLanguageService2)]
-    internal partial class WorkspaceContextHost : AbstractMultiLifetimeComponent, IImplicitlyActiveService
+    internal partial class WorkspaceContextHost : AbstractMultiLifetimeComponent, IImplicitlyActiveService, IWorkspaceProjectContextHost
     {
         private readonly ConfiguredProject _project;
         private readonly IProjectThreadingService _threadingService;
@@ -22,6 +24,7 @@ namespace Microsoft.VisualStudio.ProjectSystem.LanguageServices
         private readonly IWorkspaceProjectContextProvider _workspaceProjectContextProvider;
         private readonly IActiveWorkspaceProjectContextTracker _activeWorkspaceProjectContextTracker;
         private readonly ExportFactory<IApplyChangesToWorkspaceContext> _applyChangesToWorkspaceContextFactory;
+        private readonly TaskCompletionSource<object> _initializedTask = new TaskCompletionSource<object>();
 
         [ImportingConstructor]
         public WorkspaceContextHost(ConfiguredProject project,
@@ -42,9 +45,16 @@ namespace Microsoft.VisualStudio.ProjectSystem.LanguageServices
             _applyChangesToWorkspaceContextFactory = applyChangesToWorkspaceContextFactory;
         }
 
-        public Task ActivateAsync()
+        public Task OpenContextForRead(Func<IWorkspaceProjectContext, Task> action)
         {
-            return LoadAsync();
+            Instance.
+        }
+
+        public async Task ActivateAsync()
+        {
+            await LoadAsync().ConfigureAwait(true);
+
+            _initializedTask.SetResult(null);
         }
 
         public Task DeactivateAsync()
