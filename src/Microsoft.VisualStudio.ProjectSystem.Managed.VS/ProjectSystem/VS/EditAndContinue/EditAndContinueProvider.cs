@@ -118,15 +118,23 @@ namespace Microsoft.VisualStudio.ProjectSystem.VS.EditAndContinue
         {
             return _threadingService.ExecuteSynchronously(async () =>
             {
-                await _threadingService.SwitchToUIThread();
+                HResult hr = HResult.Unexpected;
 
-                var encProvider = (IVsENCRebuildableProjectCfg2)_projectContextHost?.HostSpecificEditAndContinueService;
-                if (encProvider != null)
+                try
                 {
-                    return action(encProvider);
+                    await _projectContextHost.OpenContextForWriteAsync(async context => 
+                    {
+                        // Explicitly switch to UI thread, because IVsENCRebuildableProjectCfg2 is bound to UI thread
+                        await _threadingService.SwitchToUIThread();
+
+                        hr = action((IVsENCRebuildableProjectCfg2)context);
+                    });
+                }
+                catch (OperationCanceledException)
+                {
                 }
 
-                return HResult.Unexpected;
+                return hr;
             });
         }
 

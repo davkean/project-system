@@ -39,9 +39,6 @@ namespace Microsoft.VisualStudio.ProjectSystem.LanguageServices
             _disposedConfiguredProjectContexts = new HashSet<IWorkspaceProjectContext>();
         }
 
-        // IWorkspaceProjectContext implements the VS-only interface IVsLanguageServiceBuildErrorReporter2
-        public object HostSpecificErrorReporter => InnerProjectContexts.First();
-
         public IEnumerable<IWorkspaceProjectContext> InnerProjectContexts => _configuredProjectContextsByTargetFramework.Values;
 
         public ImmutableArray<IWorkspaceProjectContext> DisposedInnerProjectContexts => _disposedConfiguredProjectContexts.ToImmutableArray();
@@ -49,8 +46,6 @@ namespace Microsoft.VisualStudio.ProjectSystem.LanguageServices
         public IEnumerable<ConfiguredProject> InnerConfiguredProjects => _configuredProjectsByTargetFramework.Values;
 
         public IWorkspaceProjectContext ActiveProjectContext => _configuredProjectContextsByTargetFramework[_activeTargetFramework];
-
-        public object ENCProjectConfig => _configuredProjectContextsByTargetFramework[_activeTargetFramework];
 
         public bool IsCrossTargeting => _activeTargetFramework.Length > 0;
 

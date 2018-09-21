@@ -34,39 +34,48 @@ namespace Microsoft.VisualStudio.ProjectSystem.VS.LanguageServices
         {
             Requires.NotNull(project, nameof(project));
 
-            IWorkspaceProjectContext projectContext = _projectContextHost.ActiveProjectContext;
-            if (projectContext == null)
-                return null;
-
-            return _threadingService.ExecuteSynchronously(async () =>
-            {
-                await _threadingService.SwitchToUIThread();
-
-                return _codeModelFactory.GetCodeModel(projectContext, project);
-            });
+            return Invoke(context => _codeModelFactory.GetCodeModel(context, project));
         }
 
         public FileCodeModel GetFileCodeModel(ProjectItem fileItem)
         {
             Requires.NotNull(fileItem, nameof(fileItem));
 
-            IWorkspaceProjectContext projectContext = _projectContextHost.ActiveProjectContext;
-            if (projectContext == null)
-                return null;
+            return Invoke(context => 
+            {
+                try
+                {
+                    return _codeModelFactory.GetFileCodeModel(context, fileItem);
+                }
+                catch (NotImplementedException)
+                {   // Not a file Roslyn knows about
+                }
 
+                return null;
+            });
+        }
+
+        private T Invoke<T>(Func<IWorkspaceProjectContext, T> action)
+        {
             return _threadingService.ExecuteSynchronously(async () =>
             {
-                await _threadingService.SwitchToUIThread();
+                T result = default;
 
                 try
                 {
-                    return _codeModelFactory.GetFileCodeModel(projectContext, fileItem);
+                    await _projectContextHost.OpenContextForWriteAsync(async context =>
+                    {
+                        // Explicitly switch to UI thread because ICodeModelFactory produces STA-bound objects
+                        await _threadingService.SwitchToUIThread();
+
+                        result = action(context);
+                    });
                 }
-                catch (NotImplementedException)
-                {   // Isn't a file that Roslyn knows about
+                catch (OperationCanceledException)
+                {   // No context created, or project unloading
                 }
 
-                return null;
+                return result;
             });
         }
     }

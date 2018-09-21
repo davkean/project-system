@@ -54,10 +54,13 @@ namespace Microsoft.VisualStudio.ProjectSystem.VS.Build
             if (!TryExtractErrorListDetails(error.BuildEventArgs, out ErrorListDetails details) || string.IsNullOrEmpty(details.Code))
                 return await s_notHandled.ConfigureAwait(false);
 
-            InitializeBuildErrorReporter();
-
             bool handled = false;
-            if (_languageServiceBuildErrorReporter != null)
+
+            return _projectContextHost.OpenContextForWriteAsync(context =>
+            {
+
+            }
+                if (_languageServiceBuildErrorReporter != null)
             {
                 try
                 {
@@ -87,21 +90,13 @@ namespace Microsoft.VisualStudio.ProjectSystem.VS.Build
 
         public Task ClearAllAsync()
         {
-            if (_languageServiceBuildErrorReporter != null)
+            return _projectContextHost.OpenContextForWriteAsync(context =>
             {
-                _languageServiceBuildErrorReporter.ClearErrors();
-            }
+                var buildErrorReporter = (IVsLanguageServiceBuildErrorReporter2)context;
+                buildErrorReporter.ClearErrors();
 
-            return Task.CompletedTask;
-        }
-
-        private void InitializeBuildErrorReporter()
-        {
-            // We defer grabbing error reporter the until the first build event, because the language service is initialized asynchronously
-            if (_languageServiceBuildErrorReporter == null)
-            {
-                _languageServiceBuildErrorReporter = (IVsLanguageServiceBuildErrorReporter2)_projectContextHost.HostSpecificErrorReporter;
-            }
+                return Task.CompletedTask;
+            });
         }
 
         /// <summary>
@@ -111,7 +106,6 @@ namespace Microsoft.VisualStudio.ProjectSystem.VS.Build
         /// <param name="result">The extracted details, or <c>null</c> if <paramref name="eventArgs"/> was <c>null</c> or of an unrecognized type.</param>
         internal static bool TryExtractErrorListDetails(BuildEventArgs eventArgs, out ErrorListDetails result)
         {
-
             if (eventArgs is BuildErrorEventArgs errorMessage)
             {
                 result = new ErrorListDetails()

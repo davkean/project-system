@@ -73,11 +73,25 @@ namespace Microsoft.VisualStudio.ProjectSystem.LanguageServices
             _projectConfigurationsWithSubscriptions = new HashSet<ProjectConfiguration>();
         }
 
-        public object HostSpecificErrorReporter => _currentAggregateProjectContext?.HostSpecificErrorReporter;
+        public Task Loaded
+        {
+            get { return InitializeAsync();  }
+        }
 
-        public IWorkspaceProjectContext ActiveProjectContext => _currentAggregateProjectContext?.ActiveProjectContext;
+        public async Task OpenContextForWriteAsync(Func<IWorkspaceProjectContext, Task> action)
+        {
+            Requires.NotNull(action, nameof(action));
 
-        public object HostSpecificEditAndContinueService => _currentAggregateProjectContext?.ENCProjectConfig;
+            await Loaded;
+
+            IWorkspaceProjectContext context = _currentAggregateProjectContext?.ActiveProjectContext;
+            if (context == null)
+                throw new OperationCanceledException();
+
+            await _commonServices.ThreadingService.SwitchToUIThread();
+
+            await action(context);
+        }
 
         [ProjectAutoLoad(completeBy: ProjectLoadCheckpoint.ProjectFactoryCompleted)]
         [AppliesTo(ProjectCapability.DotNetLanguageService)]
@@ -97,11 +111,6 @@ namespace Microsoft.VisualStudio.ProjectSystem.LanguageServices
             }).Forget();
 
             return Task.CompletedTask;
-        }
-
-        public Task InitializeAsync()
-        {
-            return InitializeAsync(CancellationToken.None);
         }
 
         private async Task OnProjectChangedCoreAsync(IProjectVersionedValue<IProjectSubscriptionUpdate> e, RuleHandlerType handlerType)
