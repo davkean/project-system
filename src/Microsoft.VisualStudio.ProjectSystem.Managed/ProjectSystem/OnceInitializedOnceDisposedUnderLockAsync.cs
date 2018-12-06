@@ -126,7 +126,7 @@ namespace Microsoft.VisualStudio.ProjectSystem
                 {   // There's a tiny chance that between checking the cancellation token (wrapping DisposalToken) 
                     // and checking if the underlying SemaphoreSlim has been disposed, that dispose for this instance 
                     // (and hence _semaphore) has been run. Handle that and just treat it as a cancellation.
-                    throw new OperationCanceledException();
+                    throw new OperationCanceledException(DisposalToken);
                 }
             }
         }
