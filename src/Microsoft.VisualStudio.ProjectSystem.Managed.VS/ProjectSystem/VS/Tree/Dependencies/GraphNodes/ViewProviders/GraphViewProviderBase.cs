@@ -139,8 +139,8 @@ namespace Microsoft.VisualStudio.ProjectSystem.VS.Tree.Dependencies.GraphNodes.V
                 }
 
                 children.Add(new DependencyNodeInfo(
-                    id, 
-                    childNode.Label, 
+                    id,
+                    childNode.Label,
                     childNode.GetValue<bool>(DependenciesGraphSchema.ResolvedProperty)));
             }
 

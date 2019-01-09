@@ -165,35 +165,35 @@ namespace Microsoft.VisualStudio.ProjectSystem.VS.Interop
         SQMLogFile = -8577,    // BSTR full name of the SQM log created for the current session.
         SupportRestartManager = -8578,    // VT_BOOL (default is TRUE). In order to turn off support for Restart Manager, an AppID should implement this
         SamplesURL = -8579,    // BSTR URL to show in the internal web browser for Help - Samples command
-        AppDataDir                      = -8580,    // BSTR (Remote) application data directory
-        LocalAppDataDir                 = -8581,    // BSTR Local application data directory
-        CommonAppDataDir                = -8582,    // BSTR common (all users) application data directory
-        ConfigurationTimestampUtc       = -8583,    // VT_DATE value that represents the last time the configuration cache was built
+        AppDataDir = -8580,    // BSTR (Remote) application data directory
+        LocalAppDataDir = -8581,    // BSTR Local application data directory
+        CommonAppDataDir = -8582,    // BSTR common (all users) application data directory
+        ConfigurationTimestampUtc = -8583,    // VT_DATE value that represents the last time the configuration cache was built
         //         of Visual Studio was initializing
-        CommonExtensionSearchPath       = -8584,    // SafeArray of BSTRs. APPID specific list of folders where to look for Common (shared by all users) VS extensions.
+        CommonExtensionSearchPath = -8584,    // SafeArray of BSTRs. APPID specific list of folders where to look for Common (shared by all users) VS extensions.
         //                     VS Extension Manager looks under these locations for VSIX manifest files.
-        UserExtensionsRootFolder        = -8585,    // BSTR. APPID specific folder path for User extensions. VS Extension Manager
+        UserExtensionsRootFolder = -8585,    // BSTR. APPID specific folder path for User extensions. VS Extension Manager
         //       looks under this location for VSIX manifest files.
-        LoadUserExtensions              = -8586,    // VT_BOOL. Tells PkgDef management and Extension Manager API whether to load User extensions.
+        LoadUserExtensions = -8586,    // VT_BOOL. Tells PkgDef management and Extension Manager API whether to load User extensions.
         //          This property is calculated based on the security logic of extension management and user preferrences.
-        LoadedUserExtensions            = -8587,    // SafeArray of BSTRs. List of folders that were searched for enabled user extensions.
+        LoadedUserExtensions = -8587,    // SafeArray of BSTRs. List of folders that were searched for enabled user extensions.
         //                     These are the essentially the user extensions that were enabled when the appid initialized.
-        AllowLoadingAllPackages         = -8588,    // VT_BOOL. Each APPID specifies through this property if it allows loading ALL Visual Studio Packages
+        AllowLoadingAllPackages = -8588,    // VT_BOOL. Each APPID specifies through this property if it allows loading ALL Visual Studio Packages
         //          without PLK checking. Default is FALSE.
 
-        RunningInSafeMode               = -8589,    // VT_BOOL. Specifies whether the AppID is running in safe mode.
+        RunningInSafeMode = -8589,    // VT_BOOL. Specifies whether the AppID is running in safe mode.
 
-        VSAPROPID_ProductFamily         = -8590,    // I4. See PIDFamily enum in DDConfig.h for list of valid values.
-        VSAPROPID_SplashScreenTheme     = -8591,    // INT_PTR pointing to the memory containing the VSSPLASHSCREENTHEME struct. The memory should be allocated and
+        VSAPROPID_ProductFamily = -8590,    // I4. See PIDFamily enum in DDConfig.h for list of valid values.
+        VSAPROPID_SplashScreenTheme = -8591,    // INT_PTR pointing to the memory containing the VSSPLASHSCREENTHEME struct. The memory should be allocated and
         // de-allocated at the appid implementation level.
-        VSAPROPID_RequiresElevation     = -8592,    // VT_BOOL. True means the appid always requires elevation
+        VSAPROPID_RequiresElevation = -8592,    // VT_BOOL. True means the appid always requires elevation
         //          False means the appid never requires elevation
         //          Default means the appid doesn't care, allow msenv to make the decision based on other factors (command line switches, etc.)
-        VSAPROPID_ApplicationRootFolder     = -8593,    // BSTR Full path of root location of installation (e.g. drive>:\Program Files\Microsoft Visual Studio <version>\)
+        VSAPROPID_ApplicationRootFolder = -8593,    // BSTR Full path of root location of installation (e.g. drive>:\Program Files\Microsoft Visual Studio <version>\)
         VSAPROPID_ApplicationExtensionsFolder = -8594,    // BSTR Full path of folder for installing per-machine Extensions (e.g. Example: C:\Program Files\Microsoft Visual Studio <VS version>\Common7\IDE\Extensions)
-        VSAPROPID_GenericTheme          = -8595,    // INT_PTR pointing to the memory containing the VSGENERICTHEME struct. The memory should be allocated and
+        VSAPROPID_GenericTheme = -8595,    // INT_PTR pointing to the memory containing the VSGENERICTHEME struct. The memory should be allocated and
         // de-allocated at the appid implementation level.
-        VSAPROPID_ActivityLogPath       = -8596,    // VT_BSTR, Read-Only. Path to ActivityLog file.
+        VSAPROPID_ActivityLogPath = -8596,    // VT_BSTR, Read-Only. Path to ActivityLog file.
         VSAPROPID_ReleaseVersion = -8597,    // VT_BSTR, Read-Only. The build version of the release and the branch/machine/user information used to build it (e.g. "10.0.30319.01 RTMRel" or "10.0.30128.1 BRANCHNAME(COMPUTERNAME-USERNAME)"). This is the same as the release string shown in Help/About.
         VSAPROPID_EnableSamples = -8598,    // VT_BOOL. Specifies whether samples are enabled. Defaults to false if not specified for Isolated Shell appids.
         VSAPROPID_EnableMicrosoftGalleries = -8599,  // VT_BOOL. Specifies whether Microsoft-owned extension galleries are enabled. Defaults to false if not specified for Isolated Shell appids.
@@ -225,29 +225,29 @@ namespace Microsoft.VisualStudio.ProjectSystem.VS.Interop
                                                             //      For the localized version of this string, use VSAPROPID_ReleaseString_Short
         VSAPROPID_EnableNoToolWinMode = -8625,              // VT_BOOL. Specifies whether the AppId enables NoToolWin mode.
         VSAPROPID_InIsolationMode = -8626,                  // VT_BOOL. Specifies whether the AppId is running in isolation.
-        VSAPROPID_IsolationInstallationName        = -8627,     // VT_BSTR. The AppId's isolation installation name.
-        VSAPROPID_IsolationInstallationId          = -8628,     // VT_BSTR. The AppId's isolation installation id.
-        VSAPROPID_IsolationInstallationVersion     = -8629,     // VT_BSTR. The AppId's isolation installation version.
-        VSAPROPID_IsolationInstallationWorkloads   = -8630,     // VT_BSTR. The AppId's isolation installation workloads.
-        VSAPROPID_IsolationInstallationPackages    = -8631,     // VT_BSTR. The AppId's isolation installation packages.
+        VSAPROPID_IsolationInstallationName = -8627,     // VT_BSTR. The AppId's isolation installation name.
+        VSAPROPID_IsolationInstallationId = -8628,     // VT_BSTR. The AppId's isolation installation id.
+        VSAPROPID_IsolationInstallationVersion = -8629,     // VT_BSTR. The AppId's isolation installation version.
+        VSAPROPID_IsolationInstallationWorkloads = -8630,     // VT_BSTR. The AppId's isolation installation workloads.
+        VSAPROPID_IsolationInstallationPackages = -8631,     // VT_BSTR. The AppId's isolation installation packages.
         VSAPROPID_IsolationInstallationUserDataFilePath = -8632,     // VT_BSTR. The AppId's isolation installation userdata file path.
-        VSAPROPID_IsolationInstallationLogsDirectory    = -8633,     // VT_BSTR. The AppId's isolation installation logs directory.
-        VSAPROPID_SetupEngineFilePath                   = -8634,     // VT_BSTR. The Setup Engine file path;.
-        VSAPROPID_LegacyCompatDirectory                 = -8635,     // VT_BSTR. The root legacy compat directory that MSIs that are not isolation aware may install things to
-        VSAPROPID_CommonExtensionExclusionList          = -8636,     // SafeArray of BSTRs. A list of directories to exclude from extension processing (pkgdef, MEF, etc..)
-        VSAPROPID_SetupIsValid                          = -8637,     // VT_BOOL. Specifies whether Setup finished correctly.
-        VSAPROPID_ChannelId                             = -8638,     // VT_BSTR. The AppId's installation channel ID, for example VisualStudio.15.Release
-        VSAPROPID_ChannelManifestId                     = -8639,     // VT_BSTR. The AppId's installation channel manifest unique ID, for example VisualStudio.15.Release/public.d15rel/15.0.26020.0
-        VSAPROPID_InstallationNickname                  = -8640,     // VT_BSTR. The AppId's installation nickname to disambiguate between SxS installations.
-        VSAPROPID_ProductDisplayVersion                 = -8641,     // VT_BSTR. The AppId's product display version.
-        VSAPROPID_ProductSemanticVersion                = -8642,     // VT_BSTR. The AppId's product semantic version.
-        VSAPROPID_ChannelTitle                          = -8643,     // VT_BSTR. The AppId's installation channel title.
-        VSAPROPID_ChannelSuffix                         = -8644,     // VT_BSTR. The AppId's installation channel suffix.
-        VSAPROPID_AlphaPacksCount                       = -8645,     // VT_BSTR. The number of alpha-packs this installation has.
-        VSAPROPID_CampaignId                            = -8646,     // VT_BSTR. The campaign id associated with this install.
-        VSAPROPID_AppHostVersion                        = -8647,     // VT_BSTR. The AppId's host version, preferred by _DTE.Version property.
-        VSAPROPID_SKUName                               = -8648,     // VT_BSTR. The SkuName, unlocalized and sent with Telemetry.
-        VSAPROPID_BranchName                            = -8649,     // VT_BSTR. The branch name of the build.
+        VSAPROPID_IsolationInstallationLogsDirectory = -8633,     // VT_BSTR. The AppId's isolation installation logs directory.
+        VSAPROPID_SetupEngineFilePath = -8634,     // VT_BSTR. The Setup Engine file path;.
+        VSAPROPID_LegacyCompatDirectory = -8635,     // VT_BSTR. The root legacy compat directory that MSIs that are not isolation aware may install things to
+        VSAPROPID_CommonExtensionExclusionList = -8636,     // SafeArray of BSTRs. A list of directories to exclude from extension processing (pkgdef, MEF, etc..)
+        VSAPROPID_SetupIsValid = -8637,     // VT_BOOL. Specifies whether Setup finished correctly.
+        VSAPROPID_ChannelId = -8638,     // VT_BSTR. The AppId's installation channel ID, for example VisualStudio.15.Release
+        VSAPROPID_ChannelManifestId = -8639,     // VT_BSTR. The AppId's installation channel manifest unique ID, for example VisualStudio.15.Release/public.d15rel/15.0.26020.0
+        VSAPROPID_InstallationNickname = -8640,     // VT_BSTR. The AppId's installation nickname to disambiguate between SxS installations.
+        VSAPROPID_ProductDisplayVersion = -8641,     // VT_BSTR. The AppId's product display version.
+        VSAPROPID_ProductSemanticVersion = -8642,     // VT_BSTR. The AppId's product semantic version.
+        VSAPROPID_ChannelTitle = -8643,     // VT_BSTR. The AppId's installation channel title.
+        VSAPROPID_ChannelSuffix = -8644,     // VT_BSTR. The AppId's installation channel suffix.
+        VSAPROPID_AlphaPacksCount = -8645,     // VT_BSTR. The number of alpha-packs this installation has.
+        VSAPROPID_CampaignId = -8646,     // VT_BSTR. The campaign id associated with this install.
+        VSAPROPID_AppHostVersion = -8647,     // VT_BSTR. The AppId's host version, preferred by _DTE.Version property.
+        VSAPROPID_SKUName = -8648,     // VT_BSTR. The SkuName, unlocalized and sent with Telemetry.
+        VSAPROPID_BranchName = -8649,     // VT_BSTR. The branch name of the build.
     };
 
     public enum VSASKUEdition

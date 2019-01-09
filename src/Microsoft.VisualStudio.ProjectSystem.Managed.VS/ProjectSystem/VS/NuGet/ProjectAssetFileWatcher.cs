@@ -123,7 +123,7 @@ namespace Microsoft.VisualStudio.ProjectSystem.VS.NuGet
                     StandardRuleDataflowLinkOptions sourceLinkOptions = DataflowOption.WithRuleNames(ConfigurationGeneral.SchemaName);
 
                     ProjectDataSources.SourceBlockAndLink<IProjectVersionedValue<IProjectSubscriptionUpdate>> propertySource = _activeConfiguredProjectSubscriptionService.ProjectRuleSource.SourceBlock.SyncLinkOptions(sourceLinkOptions);
-                    var target = DataflowBlockSlim.CreateActionBlock<IProjectVersionedValue<Tuple<IProjectTreeSnapshot, IProjectSubscriptionUpdate>>>(DataFlow_ChangedAsync);
+                    System.Threading.Tasks.Dataflow.ITargetBlock<IProjectVersionedValue<Tuple<IProjectTreeSnapshot, IProjectSubscriptionUpdate>>> target = DataflowBlockSlim.CreateActionBlock<IProjectVersionedValue<Tuple<IProjectTreeSnapshot, IProjectSubscriptionUpdate>>>(DataFlow_ChangedAsync);
 
                     // Join the two sources so that we get synchronized versions of the data.
                     _treeWatcher = ProjectDataSources.SyncLinkTo(treeSource, propertySource, target);

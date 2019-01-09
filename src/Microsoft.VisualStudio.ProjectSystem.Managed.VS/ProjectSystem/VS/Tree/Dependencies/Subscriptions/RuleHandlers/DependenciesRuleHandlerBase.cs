@@ -4,7 +4,6 @@ using System;
 using System.Collections.Immutable;
 
 using Microsoft.VisualStudio.Imaging.Interop;
-using Microsoft.VisualStudio.ProjectSystem.LanguageServices;
 using Microsoft.VisualStudio.ProjectSystem.Properties;
 using Microsoft.VisualStudio.ProjectSystem.VS.Tree.Dependencies.CrossTarget;
 using Microsoft.VisualStudio.ProjectSystem.VS.Utilities;
@@ -60,10 +59,10 @@ namespace Microsoft.VisualStudio.ProjectSystem.VS.Tree.Dependencies.Subscription
             if (changesByRuleName.TryGetValue(UnresolvedRuleName, out IProjectChangeDescription unresolvedChanges))
             {
                 HandleChangesForRule(
-                    resolved: false, 
-                    projectChange: unresolvedChanges, 
-                    targetFramework, 
-                    changesBuilder, 
+                    resolved: false,
+                    projectChange: unresolvedChanges,
+                    targetFramework,
+                    changesBuilder,
                     shouldProcess: dependencyId => true);
             }
 
@@ -72,10 +71,10 @@ namespace Microsoft.VisualStudio.ProjectSystem.VS.Tree.Dependencies.Subscription
                 changesByRuleName.TryGetValue(ResolvedRuleName, out IProjectChangeDescription resolvedChanges))
             {
                 HandleChangesForRule(
-                    resolved: true, 
-                    projectChange: resolvedChanges, 
-                    targetFramework, 
-                    changesBuilder, 
+                    resolved: true,
+                    projectChange: resolvedChanges,
+                    targetFramework,
+                    changesBuilder,
                     shouldProcess: unresolvedChanges.After.Items.ContainsKey);
             }
         }

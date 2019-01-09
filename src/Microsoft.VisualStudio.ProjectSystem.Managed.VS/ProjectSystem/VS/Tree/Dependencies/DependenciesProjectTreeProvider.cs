@@ -99,7 +99,7 @@ namespace Microsoft.VisualStudio.ProjectSystem.VS.Tree.Dependencies
         /// <remarks>
         /// This stub defined for code contracts.
         /// </remarks>
-        IReceivableSourceBlock<IProjectVersionedValue<IProjectTreeSnapshot>> IProjectTreeProvider.Tree 
+        IReceivableSourceBlock<IProjectVersionedValue<IProjectTreeSnapshot>> IProjectTreeProvider.Tree
             => Tree;
 
         /// <summary>
@@ -221,7 +221,7 @@ namespace Microsoft.VisualStudio.ProjectSystem.VS.Tree.Dependencies
                     IProjectPropertiesContext nodeItemContext = node.BrowseObjectProperties.Context;
                     ProjectItem unresolvedReferenceItem = project.GetItemsByEvaluatedInclude(nodeItemContext.ItemName)
                         .FirstOrDefault(
-                            (item, t) => string.Equals(item.ItemType, t, StringComparisons.ItemTypes), 
+                            (item, t) => string.Equals(item.ItemType, t, StringComparisons.ItemTypes),
                             nodeItemContext.ItemType);
 
                     Report.IfNot(unresolvedReferenceItem != null, "Cannot find reference to remove.");

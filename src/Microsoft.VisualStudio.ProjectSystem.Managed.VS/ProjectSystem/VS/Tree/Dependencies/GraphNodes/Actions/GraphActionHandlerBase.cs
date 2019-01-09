@@ -78,7 +78,7 @@ namespace Microsoft.VisualStudio.ProjectSystem.VS.Tree.Dependencies.GraphNodes.A
                 if (id.StartsWith(projectFolder, StringComparison.OrdinalIgnoreCase))
                 {
                     int startIndex = projectFolder.Length;
-                    
+
                     // Trim backslashes (without allocating)
                     while (startIndex < id.Length && id[startIndex] == '\\')
                     {
