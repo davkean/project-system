@@ -29,7 +29,7 @@ namespace Microsoft.VisualStudio.ProjectSystem.VS.NuGet
             return new ReferenceItems(items.Select(item => ToReferenceItem(item.Key, item.Value)));
         }
 
-        public static IVsReferenceItem ToReferenceItem(string name, IImmutableDictionary<string, string> metadata)
+        private static IVsReferenceItem ToReferenceItem(string name, IImmutableDictionary<string, string> metadata)
         {
             return new ReferenceItem(name, ToReferenceProperties(metadata));
         }
