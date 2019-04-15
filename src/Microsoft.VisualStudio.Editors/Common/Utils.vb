@@ -1592,6 +1592,22 @@ Namespace Microsoft.VisualStudio.Editors.Common
         ''' </summary>
         ''' <param name="hierarchy">Hierarchy object.</param>
         ''' <returns>Value indicating whether the project associated with the given hierarchy is targeting .NET Core.</returns>
+        Friend Function IsTargetingDotNetCore30OrAbove(hierarchy As IVsHierarchy) As Boolean
+
+            Dim frameworkName As FrameworkName = Nothing
+            If TryGetTargetFrameworkMoniker(hierarchy, frameworkName) Then
+                Return IsTargetingDotNetCore(frameworkName.Identifier) AndAlso frameworkName.Version.Major >= 3
+            End If
+
+            Return False
+
+        End Function
+
+        ''' <summary>
+        ''' Determines whether the project associated with the given hierarchy is targeting .NET Core
+        ''' </summary>
+        ''' <param name="hierarchy">Hierarchy object.</param>
+        ''' <returns>Value indicating whether the project associated with the given hierarchy is targeting .NET Core.</returns>
         Friend Function IsTargetingDotNetCore(hierarchy As IVsHierarchy) As Boolean
 
             Dim frameworkName As FrameworkName = Nothing

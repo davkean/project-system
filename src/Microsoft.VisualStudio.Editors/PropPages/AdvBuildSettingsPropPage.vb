@@ -5,6 +5,7 @@ Imports System.Globalization
 Imports System.Reflection
 Imports System.Windows.Forms
 
+Imports Microsoft.VisualStudio.Editors.Common
 Imports Microsoft.VisualStudio.PlatformUI
 
 Imports VSLangProj80
@@ -94,6 +95,12 @@ Namespace Microsoft.VisualStudio.Editors.PropertyPages
         End Sub
 
         Private Function LanguageVersionSet(control As Control, prop As PropertyDescriptor, value As Object) As Boolean
+
+            If IsTargetingDotNetCore30OrAbove(ProjectHierarchy) Then
+
+            End If
+
+
 
             cboLanguageVersion.SelectedIndex = -1
 
