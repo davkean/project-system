@@ -14,7 +14,7 @@ namespace Microsoft.VisualStudio.ProjectSystem.VS
     public class CreateProjectTests : TestBase
     {
         [TestMethod]
-        public void CreateProject_CreateAndBuild()
+        public void CreateProjectAndBuild()
         {
             var solution = VisualStudio.ObjectModel.Solution;
 
@@ -66,6 +66,8 @@ namespace Microsoft.VisualStudio.ProjectSystem.VS
                 
                 Assert.IsTrue(success, $"project '{consoleProject.FileName}' failed to build.{Environment.NewLine}errors:{Environment.NewLine}{string.Join(Environment.NewLine, errors)}");
             }
+
+            Assert.Fail();
         }
     }
 }
