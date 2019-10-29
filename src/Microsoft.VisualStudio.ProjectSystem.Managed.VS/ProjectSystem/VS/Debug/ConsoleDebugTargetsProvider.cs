@@ -187,6 +187,9 @@ namespace Microsoft.VisualStudio.ProjectSystem.VS.Debug
 
         private async Task<bool> IsIntegratedConsoleEnabledAsync()
         {
+            if (!_project.Capabilities.Contains(ProjectCapabilities.IntegratedConsoleDebugging))
+                return false;
+
             await _threadingService.SwitchToUIThread();
 
             _debugger.Value.IsIntegratedConsoleEnabled(out bool enabled);
@@ -336,9 +339,7 @@ namespace Microsoft.VisualStudio.ProjectSystem.VS.Debug
             bool useCmdShell = false;
             if (await IsConsoleAppAsync())
             {
-                var isIntegratedConsoleCapable = _project.Capabilities.Contains(ProjectCapabilities.IntegratedConsoleDebugging);
-
-                if (isIntegratedConsoleCapable && await IsIntegratedConsoleEnabledAsync())
+                if (await IsIntegratedConsoleEnabledAsync())
                 {
                     settings.LaunchOptions |= DebugLaunchOptions.IntegratedConsole;
                 }
