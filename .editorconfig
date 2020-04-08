@@ -337,6 +337,7 @@ dotnet_diagnostic.RS0030.severity = error
 dotnet_diagnostic.RS0031.severity = error
 dotnet_diagnostic.RS0033.severity = none        # Importing constructor should be [Obsolete]
 dotnet_diagnostic.RS0034.severity = none        # Style rule that enforces public MEF constructor marked with [ImportingConstructor]
+dotnet_diagnostic.RS0041.severity = none        # Consumes API that does not opt into nullability (entire Framework is not marked)
 
 # System.Collections.Immutable.Analyzers
 dotnet_diagnostic.RS0012.severity = warning
