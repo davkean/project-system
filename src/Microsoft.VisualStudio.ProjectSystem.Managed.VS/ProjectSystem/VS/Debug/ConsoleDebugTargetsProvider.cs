@@ -478,7 +478,7 @@ namespace Microsoft.VisualStudio.ProjectSystem.VS.Debug
             IProjectProperties properties = configuredProject.Services.ProjectPropertiesProvider.GetCommonProperties();
             string framework = await properties.GetEvaluatedPropertyValueAsync("TargetFrameworkIdentifier");
 
-            return ProjectDebuggerProvider.GetManagedDebugEngineForFramework(framework);
+            return LaunchProfilesDebugProvider.GetManagedDebugEngineForFramework(framework);
         }
 
         /// <summary>

@@ -20,13 +20,16 @@ namespace Microsoft.VisualStudio.ProjectSystem.VS.Debug
     /// </summary>
     [ExportDebugger(ProjectDebugger.SchemaName)]
     [AppliesTo(ProjectCapability.LaunchProfiles)]
-    internal class ProjectDebuggerProvider : DebugLaunchProviderBase, IDeployedProjectItemMappingProvider
+    internal class LaunchProfilesDebugProvider : DebugLaunchProviderBase, IDeployedProjectItemMappingProvider
     {
         /// <summary>
         /// Constructors. Unit test one is 2nd
         /// </summary>
         [ImportingConstructor]
-        public ProjectDebuggerProvider(ConfiguredProject configuredProject, ILaunchSettingsProvider launchSettingsProvider, IVsService<SVsShellDebugger, IVsDebugger4> vsDebuggerService)
+        public LaunchProfilesDebugProvider(
+            ConfiguredProject configuredProject, 
+            ILaunchSettingsProvider launchSettingsProvider, 
+            IVsService<SVsShellDebugger, IVsDebugger4> vsDebuggerService)
             : base(configuredProject)
         {
             LaunchSettingsProvider = launchSettingsProvider;
@@ -37,9 +40,11 @@ namespace Microsoft.VisualStudio.ProjectSystem.VS.Debug
                                                                                                                     configuredProject.UnconfiguredProject);
         }
 
-        public ProjectDebuggerProvider(ConfiguredProject configuredProject, ILaunchSettingsProvider launchSettingsProvider,
-                                       OrderPrecedenceImportCollection<IDebugProfileLaunchTargetsProvider> providers,
-                                       IVsService<SVsShellDebugger, IVsDebugger4> vsDebuggerService)
+        public LaunchProfilesDebugProvider(
+            ConfiguredProject configuredProject, 
+            ILaunchSettingsProvider launchSettingsProvider,
+            OrderPrecedenceImportCollection<IDebugProfileLaunchTargetsProvider> providers,
+            IVsService<SVsShellDebugger, IVsDebugger4> vsDebuggerService)
             : base(configuredProject)
         {
             ProfileLaunchTargetsProviders = providers;
