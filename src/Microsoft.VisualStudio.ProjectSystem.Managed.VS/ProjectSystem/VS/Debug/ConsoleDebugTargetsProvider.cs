@@ -478,7 +478,15 @@ namespace Microsoft.VisualStudio.ProjectSystem.VS.Debug
             IProjectProperties properties = configuredProject.Services.ProjectPropertiesProvider.GetCommonProperties();
             string framework = await properties.GetEvaluatedPropertyValueAsync("TargetFrameworkIdentifier");
 
-            return LaunchProfilesDebugProvider.GetManagedDebugEngineForFramework(framework);
+            // The engine depends on the framework
+            if (IsDotNetCoreFramework(framework))
+            {
+                return DebuggerEngines.ManagedCoreEngine;
+            }
+            else
+            {
+                return DebuggerEngines.ManagedOnlyEngine;
+            }
         }
 
         /// <summary>
@@ -596,6 +604,19 @@ namespace Microsoft.VisualStudio.ProjectSystem.VS.Debug
 
             return finalBuilder.ToStringAndFree();
         }
+
+        /// <summary>
+        /// TODO: This is a placeholder until issue https://github.com/dotnet/project-system/issues/423 is addressed. 
+        /// This information should come from the targets file.
+        /// </summary>
+        private static bool IsDotNetCoreFramework(string targetFramework)
+        {
+            const string NetStandardPrefix = ".NetStandard";
+            const string NetCorePrefix = ".NetCore";
+            return targetFramework.StartsWith(NetCorePrefix, StringComparisons.FrameworkIdentifiers) ||
+                   targetFramework.StartsWith(NetStandardPrefix, StringComparisons.FrameworkIdentifiers);
+        }
+
 
         private enum StringState
         {
