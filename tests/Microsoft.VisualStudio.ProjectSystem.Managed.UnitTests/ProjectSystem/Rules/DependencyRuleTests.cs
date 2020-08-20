@@ -185,14 +185,14 @@ namespace Microsoft.VisualStudio.ProjectSystem.Rules
 
         public static IEnumerable<object[]> GetUnresolvedDependenciesRules()
         {
-            return Project(GetRules("Dependencies")
-                .Where(fileName => fileName.IndexOf("Resolved", StringComparisons.Paths) == -1));
+            return Project(GetRules("Dependencies",
+                           fileNameFilter: fileName => fileName.IndexOf("Resolved", StringComparisons.Paths) == -1));
         }
 
         public static IEnumerable<object[]> GetResolvedDependenciesRules()
         {
-            return Project(GetRules("Dependencies")
-                .Where(fileName => fileName.IndexOf("Resolved", StringComparisons.Paths) != -1));
+            return Project(GetRules("Dependencies", 
+                          fileNameFilter: fileName => fileName.IndexOf("Resolved", StringComparisons.Paths) != -1));
         }
 
         public static IEnumerable<object[]> GetDependenciesRules()

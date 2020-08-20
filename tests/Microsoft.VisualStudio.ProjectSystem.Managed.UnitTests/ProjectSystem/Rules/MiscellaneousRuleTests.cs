@@ -12,6 +12,22 @@ namespace Microsoft.VisualStudio.ProjectSystem.Rules
     public sealed class MiscellaneousRuleTests : XamlRuleTestBase
     {
         [Theory]
+        [MemberData(nameof(GetAllRules))]
+        public void PropertiesInCollectedRulesShouldBeReadOnly(string ruleName, string fullPath)
+        {
+            if (ruleName.IndexOf("Collected", StringComparisons.Paths) != -1)
+            {
+                XElement rule = LoadXamlRule(fullPath);
+
+                foreach (XElement element in rule.Elements())
+                {
+                    Assert.Equal("false", element.Attribute("Visible")?.Value);
+                    Assert.Equal("true", element.Attribute("ReadOnly")?.Value);
+                }
+            }
+        }
+
+        [Theory]
         [MemberData(nameof(GetAllDisplayedRules))]
         public void NonVisiblePropertiesShouldntBeLocalized(string ruleName, string fullPath)
         {
@@ -145,9 +161,13 @@ namespace Microsoft.VisualStudio.ProjectSystem.Rules
 
         public static IEnumerable<object[]> GetAllRules()
         {
-            return GetMiscellaneousRules()
-                .Concat(ItemRuleTests.GetItemRules())
-                .Concat(DependencyRuleTests.GetDependenciesRules());
+            return Project(GetRules("", recursive: true));
+        }
+
+        public static IEnumerable<object[]> GetCollectedRules()
+        {
+            return Project(GetRules("", recursive: true,
+                           fileNameFilter: fileName => fileName.IndexOf("Collected", StringComparisons.Paths) != -1));
         }
     }
 }

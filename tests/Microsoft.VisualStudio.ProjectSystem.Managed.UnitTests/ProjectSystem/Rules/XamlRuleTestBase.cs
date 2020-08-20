@@ -15,7 +15,7 @@ namespace Microsoft.VisualStudio.ProjectSystem.Rules
     {
         protected const string MSBuildNamespace = "http://schemas.microsoft.com/build/2009/properties";
 
-        protected static IEnumerable<string> GetRules(string suffix, bool recursive = false)
+        protected static IEnumerable<string> GetRules(string suffix, bool recursive = false, Predicate<string>? fileNameFilter = null)
         {
             // Not all rules are embedded as manifests so we have to read the xaml files from the file system.
             string rulesPath = Path.Combine(RepoUtil.FindRepoRootPath(), "src", "Microsoft.VisualStudio.ProjectSystem.Managed", "ProjectSystem", "Rules");
@@ -36,6 +36,13 @@ namespace Microsoft.VisualStudio.ProjectSystem.Rules
                 // Ignore XAML documents for non-Rule types (such as ProjectSchemaDefinitions)
                 if (rule.Name.LocalName != "Rule")
                     continue;
+
+                if (fileNameFilter != null)
+                {
+                    string fileName = Path.GetFileName(filePath);
+                    if (!fileNameFilter(fileName))
+                        continue;
+                }
 
                 yield return filePath;
             }
